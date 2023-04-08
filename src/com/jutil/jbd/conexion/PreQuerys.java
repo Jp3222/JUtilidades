@@ -17,17 +17,17 @@ import java.util.logging.Logger;
  */
 public class PreQuerys {
 
-    private final Conexion CN;
+    private final Conexion conexion;
     private final HashMap<String, PreparedStatement> MAPA;
 
     public PreQuerys(Conexion cn) {
-        this.CN = cn;
+        this.conexion = cn;
         this.MAPA = new HashMap<>(10);
     }
 
     public void add(String name, String query) {
         try {
-            PreparedStatement ps = CN.getConexion().prepareStatement(query);
+            PreparedStatement ps = conexion.getConexion().prepareStatement(query);
             MAPA.put(name, ps);
         } catch (SQLException ex) {
             Logger.getLogger(PreQuerys.class.getName()).log(Level.SEVERE, null, ex);

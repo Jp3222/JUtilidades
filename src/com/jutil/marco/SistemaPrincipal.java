@@ -16,11 +16,12 @@ public abstract class SistemaPrincipal {
     protected Conexion _con;
 
     public SistemaPrincipal() {
+        
     }
 
-    abstract boolean conexion();
+    abstract boolean conexionBD();
 
-    abstract boolean archivos();
+    abstract boolean archivosDS();
 
     abstract boolean cache();
 

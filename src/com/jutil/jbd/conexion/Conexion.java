@@ -4,11 +4,12 @@
  */
 package com.jutil.jbd.conexion;
 
-import com.jutil.interfaces.MetodosBasicos;
-import com.jutil.interfaces.MetodosBasicosCompuestos;
+import com.jutil.jbd.interfaces.MetodosBasicos;
+import com.jutil.jbd.interfaces.MetodosBasicosCompuestos;
 import com.jutil.jbd.util.Func;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Properties;
 
 /**
@@ -17,27 +18,31 @@ import java.util.Properties;
  */
 public class Conexion extends BD implements MetodosBasicos, MetodosBasicosCompuestos {
 
-    public static Conexion instancia;
+    private static Conexion instancia;
 
-    public static Conexion getInstancia(String url) {
+    public static Conexion getInstancia(String url) throws SQLException {
         if (instancia == null) {
             instancia = new Conexion(url);
         }
         return instancia;
     }
 
-    public static Conexion getInstancia(Properties propiedades, String url) {
+    public static Conexion getInstancia(Properties propiedades, String url) throws SQLException {
         if (instancia == null) {
             instancia = new Conexion(propiedades, url);
         }
         return instancia;
     }
 
-    public static Conexion getInstancia(String usuario, String contra, String url) {
+    public static Conexion getInstancia(String usuario, String contra, String url) throws SQLException {
         if (instancia == null) {
             instancia = new Conexion(usuario, contra, url);
         }
         return instancia;
+    }
+
+    public static void ConexionNULL() {
+        instancia = null;
     }
 
     /**
@@ -51,68 +56,68 @@ public class Conexion extends BD implements MetodosBasicos, MetodosBasicosCompue
 
     private final Ejecutor ejc;
 
-    private Conexion(String url) {
+    private Conexion(String url) throws SQLException {
         super(url);
         ejc = new Ejecutor(cn, st, rs, sql);
     }
 
-    private Conexion(Properties propiedades, String url) {
+    private Conexion(Properties propiedades, String url) throws SQLException {
         super(propiedades, url);
         ejc = new Ejecutor(cn, st, rs, sql);
     }
 
-    private Conexion(String usuario, String contra, String url) {
+    private Conexion(String usuario, String contra, String url) throws SQLException {
         super(usuario, contra, url);
         ejc = new Ejecutor(cn, st, rs, sql);
     }
 
     @Override
-    public boolean insert(String tabla, String campos, String datos) {
+    public boolean insert(String tabla, String campos, String datos) throws SQLException {
         return ejc.insert(tabla, campos, datos);
     }
 
     @Override
-    public boolean update(String tabla, String campos, String datos) {
+    public boolean update(String tabla, String campos, String datos) throws SQLException {
         return ejc.update(tabla, campos, datos);
     }
 
     @Override
-    public boolean delete(String tabla, String where) {
+    public boolean delete(String tabla, String where) throws SQLException {
         return ejc.delete(tabla, where);
     }
 
     @Override
-    public ResultSet select(String tabla, String campos, String where) {
+    public ResultSet select(String tabla, String campos, String where) throws SQLException {
         return ejc.select(tabla, campos, where);
     }
 
-    public void closeST() {
-        ejc.closeST();
+    public void closeST() throws SQLException {
+        ejc.cerrarStatement();
     }
 
-    public void closeRS() {
-        ejc.closeRS();
-        ejc.closeST();
+    public void closeRS() throws SQLException {
+        ejc.cerrarResultSet();
+        ejc.cerrarStatement();
     }
 
     @Override
-    public boolean insert(String tabla, String datos) {
+    public boolean insert(String tabla, String datos) throws SQLException {
         return ejc.insert(tabla, null, datos);
     }
 
     @Override
-    public boolean update(String tabla, String campo, String valor, String where) {
+    public boolean update(String tabla, String campo, String valor, String where) throws SQLException {
         return ejc.update(tabla, campo + "=" + "'" + valor + "'", where);
     }
 
     @Override
-    public boolean update(String tabla, String[] campos, String[] valors, String where) {
+    public boolean update(String tabla, String[] campos, String[] valors, String where) throws SQLException {
         String upt = "";
         return ejc.update(tabla, upt, where);
     }
 
     @Override
-    public ResultSet select(String tabla) {
+    public ResultSet select(String tabla) throws SQLException {
         return ejc.select(tabla, "*", null);
     }
 
@@ -120,18 +125,22 @@ public class Conexion extends BD implements MetodosBasicos, MetodosBasicosCompue
         return cn;
     }
 
+    public boolean isConectado() throws SQLException {
+        return cn != null && !cn.isClosed();
+    }
+
     @Override
-    public ResultSet select(String tabla, String campos) {
+    public ResultSet select(String tabla, String campos) throws SQLException {
         return ejc.select(tabla, campos, null);
     }
 
     @Override
-    public boolean query(String query) {
-        return ejc.query(query);
+    public boolean instruccion(String query) throws SQLException {
+        return ejc.instruccion(query);
     }
 
     @Override
-    public ResultSet queryResult(String query) {
+    public ResultSet queryResult(String query) throws SQLException {
         return ejc.queryResult(query);
     }
 

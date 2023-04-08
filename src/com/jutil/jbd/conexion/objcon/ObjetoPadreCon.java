@@ -34,6 +34,10 @@ public abstract class ObjetoPadreCon implements Cloneable, Serializable {
         this._conjunto = valores;
     }
 
+    protected ObjetoPadreCon(int tam) {
+        this._conjunto = new String[tam];
+    }
+
     protected ObjetoPadreCon() {
         this._conjunto = null;
     }
@@ -76,20 +80,27 @@ public abstract class ObjetoPadreCon implements Cloneable, Serializable {
         return Arrays.deepEquals(this._conjunto, other._conjunto);
     }
 
-    public boolean equalsIgnoreID(ObjetoPadreCon obj) {
-        return Arrays.equals(_conjunto, 1, _conjunto.length,
+    public boolean equalsSinID(ObjetoPadreCon obj) {
+        return Arrays.equals(
+                _conjunto, 1, _conjunto.length,
                 obj._conjunto, 1, obj._conjunto.length,
                 (a, b) -> a.compareTo(b)
         );
     }
 
+    public String getObjString() {
+        return _conjunto[0];
+    }
+
     public String getSubCon(int... indices) {
-        String subcon = "";
-        for (int indice : indices) {
-            subcon += _conjunto[indice] + ",";
+        StringBuilder o = new StringBuilder();
+        int i = 0;
+        for (; i < indices.length - 1; i++) {
+            int indice = indices[i];
+            o.append(_conjunto[indice]).append(",");
         }
-        subcon = subcon.substring(0, subcon.length() - 1);
-        return subcon;
+        o.append(_conjunto[i]);
+        return o.toString();
     }
 
     @Override

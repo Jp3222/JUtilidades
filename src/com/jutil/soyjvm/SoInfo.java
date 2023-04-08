@@ -14,7 +14,7 @@ public class SoInfo {
     public static String HOME = System.getProperty("user.home");
     public static String IDIOMA = System.getProperty("user.le");
     public static String S = System.getProperty("user.home");
-    
+
     public static boolean isWindows() {
         return NOMBRE.toLowerCase().contains("windows");
     }

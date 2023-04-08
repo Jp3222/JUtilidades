@@ -29,14 +29,14 @@ public abstract class BD {
     private final String url;
     private final int opcion;
 
-    protected BD(String url) {
+    protected BD(String url) throws SQLException {
         this.url = url;
         this.opcion = 0;
         this.sql = new SQL();
         this.conectar();
     }
 
-    protected BD(Properties propiedades, String url) {
+    protected BD(Properties propiedades, String url) throws SQLException {
         this.propiedades = propiedades;
         this.url = url;
         this.opcion = 1;
@@ -44,7 +44,7 @@ public abstract class BD {
         this.conectar();
     }
 
-    protected BD(String usuario, String contra, String url) {
+    protected BD(String usuario, String contra, String url) throws SQLException {
         this.usuario = usuario;
         this.contra = contra;
         this.url = url;
@@ -53,34 +53,26 @@ public abstract class BD {
         this.conectar();
     }
 
-    public synchronized final void conectar() {
+    public synchronized final void conectar() throws SQLException {
         conectar(opcion);
     }
 
-    private synchronized void conectar(int i) {
-        try {
-            switch (i) {
-                case 0:
-                    cn = DriverManager.getConnection(url);
-                    break;
-                case 1:
-                    cn = DriverManager.getConnection(url, propiedades);
-                    break;
-                case 2:
-                    cn = DriverManager.getConnection(url, usuario, contra);
-                    break;
-            }
-        } catch (SQLException e) {
-            Excp.impTerminal(e, this.getClass(), true);
+    private synchronized void conectar(int i) throws SQLException {
+        switch (i) {
+            case 0:
+                cn = DriverManager.getConnection(url);
+                break;
+            case 1:
+                cn = DriverManager.getConnection(url, propiedades);
+                break;
+            case 2:
+                cn = DriverManager.getConnection(url, usuario, contra);
+                break;
         }
     }
 
-    public void desconectar() {
-        try {
-            this.cn.close();
-        } catch (SQLException e) {
-            Excp.impTerminal(e, this.getClass(), true);
-        }
+    public void desconectar() throws SQLException {
+        this.cn.close();
     }
 
 }

@@ -4,8 +4,8 @@
  */
 package com.jutil.jbd.sql;
 
-import com.jutil.interfaces.SQLMetodosBasicos;
-import com.jutil.interfaces.Sintaxis;
+import com.jutil.jbd.interfaces.SQLMetodosBasicos;
+import com.jutil.jbd.interfaces.Sintaxis;
 
 /**
  *

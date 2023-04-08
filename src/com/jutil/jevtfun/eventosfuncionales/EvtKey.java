@@ -8,6 +8,7 @@ import com.jutil.jevtfun.funciones.FuncionesKey;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
+import javax.swing.JComponent;
 
 /**
  *
@@ -18,7 +19,10 @@ public class EvtKey implements KeyListener {
     public final int KEY_TYPED = 0,
             KEY_PRESSED = 1,
             KEY_RELEASED = 2;
+
     private final ArrayList<FuncionesKey> LISTA[];
+
+    private JComponent compoenente;
 
     public EvtKey() {
         LISTA = new ArrayList[3];
@@ -26,6 +30,13 @@ public class EvtKey implements KeyListener {
             LISTA[i] = new ArrayList<>();
         }
     }
+
+    public EvtKey(ArrayList<FuncionesKey>[] LISTA, JComponent compoenente) {
+        this.LISTA = LISTA;
+        this.compoenente = compoenente;
+    }
+    
+    
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -59,9 +70,9 @@ public class EvtKey implements KeyListener {
     public void remove(int tipo, int index) {
         LISTA[tipo].remove(index);
     }
-    
+
     public FuncionesKey get(int tipo, int index) {
         return LISTA[tipo].get(index);
     }
-    
+
 }
