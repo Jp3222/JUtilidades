@@ -5,7 +5,6 @@
 package com.jutil.jbd.conexion;
 
 import com.jutil.jbd.sql.SQL;
-import com.jutil.jexception.Excp;
 import java.sql.DriverManager;
 import java.sql.Connection;
 import java.sql.Statement;

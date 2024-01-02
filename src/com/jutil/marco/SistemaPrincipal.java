@@ -13,10 +13,10 @@ import com.jutil.jbd.conexion.Conexion;
 public abstract class SistemaPrincipal {
 
     protected boolean _reincio;
-    protected Conexion _con;
+    protected boolean _activo;
 
     public SistemaPrincipal() {
-        
+
     }
 
     abstract boolean conexionBD();
@@ -37,6 +37,14 @@ public abstract class SistemaPrincipal {
 
     public boolean isReincio() {
         return _reincio;
+    }
+
+    public void setActivo(boolean _activo) {
+        this._activo = _activo;
+    }
+
+    public boolean isActivo() {
+        return _activo;
     }
 
 }

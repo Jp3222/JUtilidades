@@ -20,78 +20,43 @@ import java.util.logging.Logger;
  */
 public class Lector {
 
-    private final File file;
     private FileReader fr;
-    private BufferedReader br = new BufferedReader(fr);
+    private BufferedReader br;
     private boolean autoCerrar;
 
-    public Lector(File file, boolean autoCerrar) throws FileNotFoundException {
-        this.file = file;
-        this.autoCerrar = autoCerrar;
-        this.abrir();
+    public Lector(File file) throws FileNotFoundException {
+        fr = new FileReader(file);
+        br = new BufferedReader(fr);
+
     }
 
-    public String readAll() throws FileNotFoundException, IOException {
-        String it = null;
+    public String getTexto() throws IOException {
+        String aux;
+        StringBuilder s = new StringBuilder();
         do {
-            it += br.readLine();
-        } while (it != null);
-        if (autoCerrar) {
-            cerrar();
-        }
-        return it;
+            aux = br.readLine();
+            if (aux == null) {
+                break;
+            }
+            s.append(aux);
+        } while (true);
+        return s.toString();
     }
 
-    public ArrayList<String> leerLineasEnLista() throws IOException {
-        ArrayList<String> lineas = new ArrayList<>();
-        String it;
+    public ArrayList<String> getLineas() throws IOException {
+        ArrayList<String> lista = new ArrayList<>();
         do {
-            it = br.readLine();
-            lineas.add(it);
-        } while (it != null);
-        if (autoCerrar) {
-            cerrar();
-        }
-        return lineas;
+            String aux = br.readLine();
+            if (aux == null) {
+                break;
+            }
+            lista.add(aux);
+        } while (true);
+        return lista;
     }
 
-    public String[] leer() throws IOException {
-        ArrayList<String> lineas = leerLineasEnLista();
-        String[] arr = new String[lineas.size()];
-        arr = lineas.toArray(arr);
-        lineas.clear();
-        return arr;
-    }
-
-    public void setAutoCerrar(boolean autoCerrar) {
-        this.autoCerrar = autoCerrar;
-    }
-
-    public BufferedReader getBr() {
-        return br;
-    }
-
-    public File getFile() {
-        return file;
-    }
-
-    public FileReader getFr() {
-        return fr;
-    }
-
-    public final void abrir() throws FileNotFoundException {
-        this.fr = new FileReader(file);
-        this.br = new BufferedReader(fr);
-    }
-
-    public final void cerrar() {
-        try {
-            br.close();
-            fr.close();
-        } catch (IOException ex) {
-            Excp.impTerminal(ex, this.getClass(), true);
-        }
-
+    public String getSubString(int inicio, int fin) throws IOException {
+        return getTexto().substring(inicio, fin);
     }
 
 }

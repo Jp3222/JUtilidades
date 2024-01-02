@@ -14,5 +14,4 @@ public interface Arch {
 
     void cerrar();
 
-    void autoCerrar(boolean autoCerrar);
 }

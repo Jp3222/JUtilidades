@@ -21,9 +21,14 @@ import java.util.Arrays;
 public abstract class ObjetoPadreCon implements Cloneable, Serializable {
 
     /**
-     * arry - contenedor de la informacion leida
+     * array - contenedor de la informacion leida
      */
     protected String[] _conjunto;
+    /**
+     * array - contenedor de la infomacion leida pasada por un proceso para
+     * remplazar las llaves foraneas
+     */
+    protected String[] _conjuntoSinFK;
 
     /**
      * Crea una instancia del
@@ -32,10 +37,12 @@ public abstract class ObjetoPadreCon implements Cloneable, Serializable {
      */
     protected ObjetoPadreCon(String... valores) {
         this._conjunto = valores;
+        this._conjuntoSinFK = _conjunto.clone();
     }
 
     protected ObjetoPadreCon(int tam) {
         this._conjunto = new String[tam];
+        this._conjuntoSinFK = new String[tam];
     }
 
     protected ObjetoPadreCon() {
@@ -48,6 +55,7 @@ public abstract class ObjetoPadreCon implements Cloneable, Serializable {
 
     public void setConjunto(String[] conjunto) {
         this._conjunto = conjunto;
+        this._conjuntoSinFK = conjunto.clone();
     }
 
     public String getValor(int index) {

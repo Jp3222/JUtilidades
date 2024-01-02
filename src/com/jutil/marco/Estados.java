@@ -8,16 +8,15 @@ package com.jutil.marco;
  *
  * @author jp
  */
-public abstract class VentanasSuper {
+public interface Estados {
 
-    abstract void llamable();
+    void llamable();
 
-    abstract void eventos();
+    void eventos();
 
-    abstract void componentes();
+    void componentes();
 
-    public abstract void componentesEnEstadoBase();
+    void componentesEnEstadoBase();
 
-    abstract void componentesEnEstadoFinal();
-
+    void componentesEnEstadoFinal();
 }

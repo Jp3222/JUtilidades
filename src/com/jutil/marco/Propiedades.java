@@ -8,7 +8,7 @@ package com.jutil.marco;
  *
  * @author jp
  */
-public abstract class Propiedades {
+public class Propiedades {
 
     protected final String _NOMBRE_DEL_PROGRAMA;
     protected final String _VERSION;

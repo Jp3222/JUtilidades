@@ -4,31 +4,22 @@
  */
 package jutilidades;
 
-import com.jutil.jswing.jswingenv.comp.Tabla;
-import java.awt.Dimension;
-import javax.swing.JFrame;
+import com.jutil.configprog.Propiedades;
+import com.jutil.soyjvm.So;
+import java.io.File;
 
 /**
  *
  * @author jp
  */
 public class JUtilidades {
-    
+
     public static void main(String[] args) throws Exception {
-        JFrame frame = new JFrame("Tabla con buscador");
-        Dimension dimensiones = new Dimension(300, 300);
-        frame.setSize(dimensiones);
-        frame.setPreferredSize(dimensiones);
-        frame.setLocationRelativeTo(null);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        //
-        Tabla tabla = new Tabla();
-        tabla.crearBarraSuperior("Buscar");
-        tabla.setSize(dimensiones);
-        
-        frame.add(tabla);
-        frame.setVisible(true);
+        Propiedades o = new Propiedades(new File(So.USER_HOME, "jutil.confi"));
+        for (int i = 0; i < 3000; i++) {
+            o.put("key " + i, i + "");
+        }
+        o.writer();
     }
-    
+
 }

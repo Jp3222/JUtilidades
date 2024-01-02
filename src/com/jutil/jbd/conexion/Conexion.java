@@ -41,10 +41,13 @@ public class Conexion extends BD implements MetodosBasicos, MetodosBasicosCompue
         return instancia;
     }
 
-    public static void ConexionNULL() {
+    public static void ConexionNULL() throws SQLException {
+        if (instancia != null) {
+            instancia.desconectar();
+        }
         instancia = null;
     }
-
+    
     /**
      * Metodo que retorna la instancia unica una vez que haya sido inicializada
      *
@@ -54,19 +57,19 @@ public class Conexion extends BD implements MetodosBasicos, MetodosBasicosCompue
         return instancia;
     }
 
-    private final Ejecutor ejc;
+    protected final Ejecutor ejc;
 
-    private Conexion(String url) throws SQLException {
+    protected Conexion(String url) throws SQLException {
         super(url);
         ejc = new Ejecutor(cn, st, rs, sql);
     }
 
-    private Conexion(Properties propiedades, String url) throws SQLException {
+    protected Conexion(Properties propiedades, String url) throws SQLException {
         super(propiedades, url);
         ejc = new Ejecutor(cn, st, rs, sql);
     }
 
-    private Conexion(String usuario, String contra, String url) throws SQLException {
+    protected Conexion(String usuario, String contra, String url) throws SQLException {
         super(usuario, contra, url);
         ejc = new Ejecutor(cn, st, rs, sql);
     }
@@ -112,7 +115,7 @@ public class Conexion extends BD implements MetodosBasicos, MetodosBasicosCompue
 
     @Override
     public boolean update(String tabla, String[] campos, String[] valors, String where) throws SQLException {
-        String upt = "";
+        String upt = getCamposDatos(campos, valors);
         return ejc.update(tabla, upt, where);
     }
 

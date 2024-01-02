@@ -54,13 +54,14 @@ public class PreQuerys {
      * @param key
      * @param values
      * @return
+     * @throws java.sql.SQLException
      */
     public ResultSet ejecutarResultSet(String key, String... values) throws SQLException {
-        PreparedStatement get = MAPA.get(key);
+        PreparedStatement query = MAPA.get(key);
         for (int i = 0; i < values.length; i++) {
-            get.setString(i, values[i]);
+            query.setString(i + 1, values[i]);
         }
-        return get.executeQuery();
+        return query.executeQuery();
 
     }
 
@@ -69,13 +70,14 @@ public class PreQuerys {
      *
      * @param key
      * @param values
+     * @throws java.sql.SQLException
      */
     public void ejecutar(String key, String[] values) throws SQLException {
-        try (PreparedStatement get = MAPA.get(key)) {
+        try (PreparedStatement query = MAPA.get(key)) {
             for (int i = 0; i < values.length; i++) {
-                get.setString(i, values[i]);
+                query.setString(i + 1, values[i]);
             }
-            get.executeUpdate();
+            query.executeUpdate();
         }
     }
 
