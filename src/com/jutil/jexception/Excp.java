@@ -48,7 +48,9 @@ public class Excp {
             impJopPane(e);
         }
         impTerminal(e, c, stackProg);
-
     }
-
+    
+    public static void SysExit(){
+        System.exit(1);
+    }
 }

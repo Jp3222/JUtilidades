@@ -30,4 +30,8 @@ public class JFunc {
         return o.isBlank();
     }
 
+    public static boolean isNull(Object o) {
+        return o == null;
+    }
+
 }

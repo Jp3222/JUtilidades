@@ -80,10 +80,16 @@ class Ejecutor implements MetodosBasicos {
     }
 
     public void cerrarResultSet() throws SQLException {
+        if (rs == null || rs.isClosed()) {
+            return;
+        }
         rs.close();
     }
 
     public void cerrarStatement() throws SQLException {
+        if (st == null || st.isClosed()) {
+            return;
+        }
         st.close();
     }
 

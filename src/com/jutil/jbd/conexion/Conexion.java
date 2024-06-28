@@ -47,7 +47,7 @@ public class Conexion extends BD implements MetodosBasicos, MetodosBasicosCompue
         }
         instancia = null;
     }
-    
+
     /**
      * Metodo que retorna la instancia unica una vez que haya sido inicializada
      *
@@ -130,6 +130,10 @@ public class Conexion extends BD implements MetodosBasicos, MetodosBasicosCompue
 
     public boolean isConectado() throws SQLException {
         return cn != null && !cn.isClosed();
+    }
+
+    public boolean isServerON() throws SQLException {
+        return cn != null && !cn.isValid(1000);
     }
 
     @Override
