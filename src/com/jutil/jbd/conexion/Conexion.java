@@ -57,71 +57,76 @@ public class Conexion extends BD implements MetodosBasicos, MetodosBasicosCompue
         return instancia;
     }
 
-    protected final Ejecutor ejc;
+    private final Ejecutor EXCE;
 
     protected Conexion(String url) throws SQLException {
         super(url);
-        ejc = new Ejecutor(cn, st, rs, sql);
+        EXCE = new Ejecutor(cn, st, rs, sql);
     }
 
     protected Conexion(Properties propiedades, String url) throws SQLException {
         super(propiedades, url);
-        ejc = new Ejecutor(cn, st, rs, sql);
+        EXCE = new Ejecutor(cn, st, rs, sql);
     }
 
     protected Conexion(String usuario, String contra, String url) throws SQLException {
         super(usuario, contra, url);
-        ejc = new Ejecutor(cn, st, rs, sql);
+        EXCE = new Ejecutor(cn, st, rs, sql);
     }
 
     @Override
     public boolean insert(String tabla, String campos, String datos) throws SQLException {
-        return ejc.insert(tabla, campos, datos);
+        return EXCE.insert(tabla, campos, datos);
     }
 
     @Override
     public boolean update(String tabla, String campos, String datos) throws SQLException {
-        return ejc.update(tabla, campos, datos);
+        return EXCE.update(tabla, campos, datos);
     }
 
     @Override
     public boolean delete(String tabla, String where) throws SQLException {
-        return ejc.delete(tabla, where);
+        return EXCE.delete(tabla, where);
     }
 
     @Override
     public ResultSet select(String tabla, String campos, String where) throws SQLException {
-        return ejc.select(tabla, campos, where);
+        return EXCE.select(tabla, campos, where);
     }
 
     public void closeST() throws SQLException {
-        ejc.cerrarStatement();
+        EXCE.cerrarStatement();
     }
 
     public void closeRS() throws SQLException {
-        ejc.cerrarResultSet();
-        ejc.cerrarStatement();
+        EXCE.cerrarResultSet();
+        EXCE.cerrarStatement();
     }
 
     @Override
     public boolean insert(String tabla, String datos) throws SQLException {
-        return ejc.insert(tabla, null, datos);
+        return EXCE.insert(tabla, null, datos);
+    }
+
+    @Override
+    public boolean insert(String tabla, String campos, StringBuilder valores) throws SQLException {
+        return EXCE.insert(tabla, campos, valores);
     }
 
     @Override
     public boolean update(String tabla, String campo, String valor, String where) throws SQLException {
-        return ejc.update(tabla, campo + "=" + "'" + valor + "'", where);
+        return EXCE.update(tabla, campo + "=" + "'" + valor + "'", where);
     }
 
     @Override
     public boolean update(String tabla, String[] campos, String[] valors, String where) throws SQLException {
         String upt = getCamposDatos(campos, valors);
-        return ejc.update(tabla, upt, where);
+        return EXCE.update(tabla, upt, where);
     }
 
     @Override
     public ResultSet select(String tabla) throws SQLException {
-        return ejc.select(tabla, "*", null);
+        return EXCE.select(tabla, "*", null);
     }
 
     public Connection getConexion() {
@@ -138,17 +143,17 @@ public class Conexion extends BD implements MetodosBasicos, MetodosBasicosCompue
 
     @Override
     public ResultSet select(String tabla, String campos) throws SQLException {
-        return ejc.select(tabla, campos, null);
+        return EXCE.select(tabla, campos, null);
     }
 
     @Override
     public boolean instruccion(String query) throws SQLException {
-        return ejc.instruccion(query);
+        return EXCE.instruccion(query);
     }
 
     @Override
     public ResultSet queryResult(String query) throws SQLException {
-        return ejc.queryResult(query);
+        return EXCE.queryResult(query);
     }
 
     public String getCampos(String... campos) {
@@ -162,4 +167,5 @@ public class Conexion extends BD implements MetodosBasicos, MetodosBasicosCompue
     public String getCamposDatos(String[] campos, String[] datos) {
         return Func.getCamposDatos(campos, datos);
     }
+
 }

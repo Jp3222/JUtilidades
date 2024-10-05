@@ -4,7 +4,7 @@
  */
 package com.jutil.swingw.subcomponents;
 
-import static com.jutil.swingw.SwFactories.FactorySw.createField;
+import com.jutil.swingw.subcomponents.sub.FormComponent;
 import com.jutil.swingw.subcomponents.sub.SubComponent;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -25,6 +25,7 @@ public class CDate extends SubComponent {
     private JSpinner day;
     private JSpinner month;
     private JSpinner year;
+
     private LocalDate date;
 
     public CDate() {
@@ -64,9 +65,9 @@ public class CDate extends SubComponent {
         year.getEditor().setEnabled(false);
         //
 
-        add(createField("Day", BorderLayout.NORTH, day, BorderLayout.CENTER));
-        add(createField("Month", BorderLayout.NORTH, month, BorderLayout.CENTER));
-        add(createField("Year", BorderLayout.NORTH, year, BorderLayout.CENTER));
+        add(new FormComponent("day", BorderLayout.NORTH, month));
+        add(new FormComponent("Month", BorderLayout.NORTH, month, BorderLayout.CENTER));
+        add(new FormComponent("Year", BorderLayout.NORTH, year, BorderLayout.CENTER));
     }
 
     @Override
@@ -89,19 +90,38 @@ public class CDate extends SubComponent {
         return LocalDate.of(_year, _month, _day);
     }
 
+    @Override
+    public <T> void setValue(T data) {
+        if (!(data instanceof LocalDate) && !(data instanceof String)) {
+            throw new ClassCastException("The value is not suppor for this implementation");
+        }
+        if (data instanceof LocalDate o) {
+            dayModel.setValue(o.getDayOfMonth());
+            monthModel.setValue(o.getMonthValue());
+            yearModel.setValue(o.getYear());
+        }
+
+        if (data instanceof String f) {
+            LocalDate o = LocalDate.parse(f);
+            dayModel.setValue(o.getDayOfMonth());
+            monthModel.setValue(o.getMonthValue());
+            yearModel.setValue(o.getYear());
+        }
+    }
+
     public void setDayRange(int min, int max) {
         dayModel.setMinimum(min);
         dayModel.setMaximum(max);
     }
 
     public void setMonthRange(int min, int max) {
-        dayModel.setMinimum(min);
-        dayModel.setMaximum(max);
+        monthModel.setMinimum(min);
+        monthModel.setMaximum(max);
     }
 
     public void setYearRange(int min, int max) {
-        dayModel.setMinimum(min);
-        dayModel.setMaximum(max);
+        yearModel.setMinimum(min);
+        yearModel.setMaximum(max);
     }
 
 }

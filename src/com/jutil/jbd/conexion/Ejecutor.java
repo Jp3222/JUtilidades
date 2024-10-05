@@ -33,15 +33,23 @@ class Ejecutor implements MetodosBasicos {
     @Override
     public boolean insert(String tabla, String campos, String datos) throws SQLException {
         st = cn.createStatement();
-        int af = st.executeUpdate(sql.insert(tabla, campos, datos));
+        int af = st.executeUpdate(sql.insert(tabla, campos, String.format("(%s)", datos)));
         cerrarStatement();
         return af > 0;
+    }
 
+    @Override
+    public boolean insert(String tabla, String campos, StringBuilder valores) throws SQLException {
+        st = cn.createStatement();
+        int af = st.executeUpdate(sql.insert(tabla, campos, valores.toString()));
+        cerrarStatement();
+        return af > 0;
     }
 
     @Override
     public boolean update(String tabla, String kv, String where) throws SQLException {
         st = cn.createStatement();
+        System.out.println(sql.update(tabla, kv, where));
         int af = st.executeUpdate(sql.update(tabla, kv, where));
         cerrarStatement();
         return af > 0;

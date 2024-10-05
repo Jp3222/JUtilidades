@@ -9,5 +9,5 @@ package com.jutil.framework;
  * @author juan-campos
  */
 public interface ViewStates extends ComponentStates {
-    
+
 }

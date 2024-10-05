@@ -10,10 +10,9 @@ package com.jutil.jregex;
  */
 public class Formatos {
 
-    public final static String ENTEROS = "[0-9]{%,%}";
-    public final static String DECIMALES = ENTEROS + "";
-    public final static String BOOLEANOS = "";
-    public final static String TEXTO = "";
-    public final static String OTRO = "";
-
+    public final static String NUMBERS = "[0-9]{%,%}";
+    public final static String FLOAT =  NUMBERS + "";
+    public final static String BOOLEAN = "";
+    public final static String TEXT = "";
+    
 }

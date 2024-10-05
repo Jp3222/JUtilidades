@@ -10,7 +10,7 @@ package com.jutil.util;
  */
 public class JArrays {
 
-    public static <T> T[] array(String... e) {
+    public static <T> T[] array(T... e) {
         return (T[]) e;
     }
 

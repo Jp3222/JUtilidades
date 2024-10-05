@@ -24,8 +24,7 @@ public class SQL implements SQLMetodosBasicos, Sintaxis {
         if (campos != null && !campos.isEmpty()) {
             sql += "(" + campos + ")";
         }
-        sql += " values(" + datos + ")";
-        //System.out.println(sql);
+        sql += " values" + datos + "";
         return sql;
     }
 
@@ -62,6 +61,5 @@ public class SQL implements SQLMetodosBasicos, Sintaxis {
     public String query(String query) {
         return query;
     }
-    
-    
+
 }

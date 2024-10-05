@@ -17,39 +17,39 @@ import javax.swing.JTextField;
  */
 public class TextFieldWrapper {
 
-    private final JTextField componente;
-    private final String texto_inicial;
+    private final JTextField component;
+    private final String text_init;
     private final EvtMouse eventos_mouse;
     private final EvtKey eventos_teclado;
     private boolean texto_borrado;
 
     public TextFieldWrapper(JTextField componente, String textInicial) {
-        this.componente = componente;
-        this.texto_inicial = textInicial;
-        this.componente.setText(textInicial);
+        this.component = componente;
+        this.text_init = textInicial;
+        this.component.setText(textInicial);
         this.texto_borrado = false;
         this.eventos_mouse = new EvtMouse();
         this.eventos_teclado = new EvtKey();
-        this.componente.addMouseListener(eventos_mouse);
-        this.componente.addKeyListener(eventos_teclado);
+        this.component.addMouseListener(eventos_mouse);
+        this.component.addKeyListener(eventos_teclado);
 
     }
 
     public void borrarAlClick() {
         eventos_mouse.addME(eventos_mouse.MOUSE_CLICKED, (e) -> {
             if (!texto_borrado) {
-                componente.setText("");
+                component.setText("");
                 texto_borrado = true;
             }
         });
     }
 
     public void borrarAlFoco() {
-        componente.addFocusListener(new FocusListener() {
+        component.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent fe) {
                 if (!texto_borrado) {
-                    componente.setText("");
+                    component.setText("");
                     texto_borrado = true;
                 }
             }
@@ -63,7 +63,7 @@ public class TextFieldWrapper {
     public void borrarAlEscribir() {
         eventos_teclado.add(eventos_teclado.KEY_TYPED, (e) -> {
             if (!texto_borrado) {
-                componente.setText("");
+                component.setText("");
                 texto_borrado = true;
             }
         });
@@ -87,7 +87,7 @@ public class TextFieldWrapper {
 
     public void defecto() {
         texto_borrado = false;
-        componente.setText(texto_inicial);
+        component.setText(text_init);
     }
 
     public void quitarBorrado() {

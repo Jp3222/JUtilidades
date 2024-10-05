@@ -4,7 +4,7 @@
  */
 package com.jutil.swingw.subcomponents;
 
-import static com.jutil.swingw.SwFactories.FactorySw.createField;
+import com.jutil.swingw.subcomponents.sub.FormComponent;
 import com.jutil.swingw.subcomponents.sub.SubComponent;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -65,9 +65,9 @@ public class CTime extends SubComponent {
         second.getEditor().setEnabled(false);
         //
 
-        add(createField("Hora", BorderLayout.NORTH, hour, BorderLayout.CENTER));
-        add(createField("Minuto", BorderLayout.NORTH, minute, BorderLayout.CENTER));
-        add(createField("segundo", BorderLayout.NORTH, second, BorderLayout.CENTER));
+        add(new FormComponent("Hora", BorderLayout.NORTH, hour));
+        add(new FormComponent("Minuto", BorderLayout.NORTH, minute));
+        add(new FormComponent("segundo", BorderLayout.NORTH, second));
     }
 
     @Override
@@ -86,6 +86,24 @@ public class CTime extends SubComponent {
         int _month = minuteModel.getNumber().intValue();
         int _year = secondModel.getNumber().intValue();
         return LocalDate.of(_year, _month, _day);
+    }
+
+    @Override
+    public <T> void setValue(T data) {
+        if (!(data instanceof LocalDate) && !(data instanceof String)) {
+            throw new ClassCastException("The value is not suppor for this implementation");
+        }
+        if (data instanceof LocalDate o) {
+            hourModel.setValue(o.getDayOfMonth());
+            minuteModel.setValue(o.getMonthValue());
+            secondModel.setValue(o.getYear());
+        }
+        if (data instanceof String f) {
+            LocalDate o = LocalDate.parse(f);
+            hourModel.setValue(o.getDayOfMonth());
+            minuteModel.setValue(o.getMonthValue());
+            secondModel.setValue(o.getYear());
+        }
     }
 
     public void setHourRange(int min, int max) {

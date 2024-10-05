@@ -8,9 +8,11 @@ package com.jutil.framework;
  *
  * @author juan-campos
  */
-public interface AppSession {
+public abstract class AppSession {
 
-    void startSession();
+    
+    public abstract void startSession();
 
-    void closeSession();
+    public abstract void closeSession();
+
 }

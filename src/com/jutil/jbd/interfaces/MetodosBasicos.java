@@ -27,6 +27,19 @@ public interface MetodosBasicos {
     boolean insert(String tabla, String campos, String valores) throws SQLException;
 
     /**
+     * Este metodo hara una inseccion en la base de datos con los campos y
+     * valores especificados
+     *
+     * @param tabla - tabla de la base de datos a la cual se le hara la
+     * inserccion
+     * @param campos - campos a los cuales se les hara la insercion
+     * @param valores - valores a insertar
+     * @return true si la inserccion se hizo correctamente
+     * @throws SQLException
+     */
+    boolean insert(String tabla, String campos, StringBuilder valores) throws SQLException;
+
+    /**
      * Este metodo hara una actualizacion en la base de datos a los campos
      * especificados con los valores dados.
      * <br><br>
@@ -62,12 +75,13 @@ public interface MetodosBasicos {
      * @throws SQLException
      */
     boolean delete(String tabla, String where) throws SQLException;
-    
+
     /**
      * Este metodo
+     *
      * @param query
      * @return
-     * @throws SQLException 
+     * @throws SQLException
      */
     boolean instruccion(String query) throws SQLException;
 
