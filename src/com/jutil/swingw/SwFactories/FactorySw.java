@@ -19,8 +19,8 @@ public class FactorySw {
 
     public static void setDefaultLookAndFeel() {
         try {
-            UIManager.setLookAndFeel(UIManager.getLookAndFeel());
-        } catch (UnsupportedLookAndFeelException ex) {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (UnsupportedLookAndFeelException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(FactorySw.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

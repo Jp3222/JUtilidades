@@ -31,13 +31,13 @@ public abstract class Cache {
     }
 
     protected void leerIdsMinMax() throws SQLException {
-        try (ResultSet primer_id = _conexion.queryResult("SELECT id FROM " + _tabla + " LIMIT 1")) {
+        try (ResultSet primer_id = _conexion.query("SELECT id FROM " + _tabla + " LIMIT 1")) {
             if (primer_id.next()) {
                 _id_inicial = Integer.parseInt(primer_id.getString("id"));
             }
         }
 
-        try (ResultSet ultimo_id = _conexion.queryResult("SELECT id FROM " + _tabla + " ORDER BY id desc LIMIT 1")) {
+        try (ResultSet ultimo_id = _conexion.query("SELECT id FROM " + _tabla + " ORDER BY id desc LIMIT 1")) {
             if (ultimo_id.next()) {
                 _id_final = Integer.parseInt(ultimo_id.getString("id"));
             }

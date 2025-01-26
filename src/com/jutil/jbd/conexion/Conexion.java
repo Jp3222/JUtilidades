@@ -4,6 +4,8 @@
  */
 package com.jutil.jbd.conexion;
 
+import com.jutil.dbcon.connection.JConnection;
+import com.jutil.dbcon.connection.SimpleQuerys;
 import com.jutil.jbd.interfaces.MetodosBasicos;
 import com.jutil.jbd.interfaces.MetodosBasicosCompuestos;
 import com.jutil.jbd.util.Func;
@@ -16,7 +18,7 @@ import java.util.Properties;
  *
  * @author jp
  */
-public class Conexion extends BD implements MetodosBasicos, MetodosBasicosCompuestos {
+public class Conexion extends BD implements SimpleQuerys, MetodosBasicosCompuestos, JConnection {
 
     private static Conexion instancia;
 
@@ -79,7 +81,6 @@ public class Conexion extends BD implements MetodosBasicos, MetodosBasicosCompue
         return EXCE.insert(tabla, campos, datos);
     }
 
-    @Override
     public boolean update(String tabla, String campos, String datos) throws SQLException {
         return EXCE.update(tabla, campos, datos);
     }
@@ -108,7 +109,6 @@ public class Conexion extends BD implements MetodosBasicos, MetodosBasicosCompue
         return EXCE.insert(tabla, null, datos);
     }
 
-    @Override
     public boolean insert(String tabla, String campos, StringBuilder valores) throws SQLException {
         return EXCE.insert(tabla, campos, valores);
     }
@@ -146,13 +146,12 @@ public class Conexion extends BD implements MetodosBasicos, MetodosBasicosCompue
         return EXCE.select(tabla, campos, null);
     }
 
-    @Override
     public boolean instruccion(String query) throws SQLException {
         return EXCE.instruccion(query);
     }
 
     @Override
-    public ResultSet queryResult(String query) throws SQLException {
+    public ResultSet query(String query) throws SQLException {
         return EXCE.queryResult(query);
     }
 

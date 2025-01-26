@@ -15,12 +15,17 @@ import javax.swing.UnsupportedLookAndFeelException;
  */
 public class So {
 
-    public static String SO_NAME = System.getProperty("os.name");
-    public static String SO_VERSION = System.getProperty("os.version");
-    public static String USER_NAME = System.getProperty("user.name");
-    public static String USER_HOME = System.getProperty("user.home");
-    public static String USER_LANGUAJE = System.getProperty("user.language");
-    public static String USER_DIR = System.getProperty("user.dir");
+    public static final String USER_COUNTRY = System.getProperty("user.country");
+    public static final String USER_DIR = System.getProperty("user.dir");
+    public static final String USER_HOME = System.getProperty("user.home");
+    public static final String USER_LANGUAGE = System.getProperty("user.language");
+    public static final String USER_NAME = System.getProperty("user.name");
+    public static final String OS_ARCH = System.getProperty("os.arch");
+    public static final String OS_NAME = System.getProperty("os.name");
+    public static final String OS_VERSION = System.getProperty("os.version");
+    public static final String PATH_SEPARATOR = System.getProperty("path.separator");
+    public static final String LINE_SEPARATOR = System.getProperty("line.separator");
+    
 
     public static boolean isWindows() {
         return soName("windows");
@@ -33,17 +38,20 @@ public class So {
     public static boolean isLinux() {
         return soName("linux");
     }
-    
-    private static boolean soName(String name){
-        return SO_NAME.toLowerCase().contains(name);
+
+    private static boolean soName(String name) {
+        return OS_NAME.toLowerCase().contains(name);
     }
 
     public static void setDefaultLookAndFeel() {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException
+                | InstantiationException
+                | IllegalAccessException
+                | UnsupportedLookAndFeelException ex) {
             Logger.getLogger(So.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
 }

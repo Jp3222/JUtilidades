@@ -40,10 +40,10 @@ public class SQL implements SQLMetodosBasicos, Sintaxis {
         return sql;
     }
 
-    //select id,nombre from tabla where id > 45
     @Override
     public String select(String tabla, String campos, String where) {
         String sql = SELECT;
+        
         if (campos != null && !campos.isEmpty()) {
             sql += " " + campos;
         } else {

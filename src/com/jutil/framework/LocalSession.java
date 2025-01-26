@@ -6,22 +6,13 @@ package com.jutil.framework;
 
 /**
  *
- * @author jp
+ * @author juan-campos
  */
-public interface MainSystem {
+public interface LocalSession {
 
-    boolean conectionDB();
+    boolean isOpen();
 
-    boolean appFiles();
+    void writer();
 
-    boolean cache();
-
-    boolean run();
-
-    boolean openSys();
-
-    boolean closeSys();
-
-    Object getResources(String key);
-
+    <T> void setUser(T user);
 }
