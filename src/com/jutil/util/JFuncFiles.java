@@ -10,7 +10,7 @@ import java.io.File;
  *
  * @author juan-campos
  */
-public class JFuncFiles {
+public interface JFuncFiles {
 
     public static boolean isNull(File file) {
         return JFunc.isNull(file);

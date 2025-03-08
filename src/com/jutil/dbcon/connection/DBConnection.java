@@ -4,6 +4,8 @@
  */
 package com.jutil.dbcon.connection;
 
+import com.jutil.dbcon.cn.JConnection;
+import com.jutil.dbcon.cn.SimpleQuerys;
 import java.sql.DriverManager;
 import java.sql.Connection;
 import java.sql.ResultSet;

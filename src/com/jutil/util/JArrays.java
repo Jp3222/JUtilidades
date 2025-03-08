@@ -8,7 +8,7 @@ package com.jutil.util;
  *
  * @author juan-campos
  */
-public class JArrays {
+public interface JArrays {
 
     public static <T> T[] array(T... e) {
         return (T[]) e;

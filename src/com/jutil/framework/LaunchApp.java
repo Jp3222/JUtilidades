@@ -4,11 +4,14 @@
  */
 package com.jutil.framework;
 
+import com.jutil.dbcon.connection.DBModels;
+import com.jutil.dbcon.tb.DBTable;
+
 /**
  *
  * @author juan-campos
  */
-public class LaunchApp implements MainSystem {
+public class LaunchApp implements MainSystem, DBModels {
 
     private static LaunchApp instance;
 
@@ -24,16 +27,18 @@ public class LaunchApp implements MainSystem {
     }
     private final MainSystem main;
     private final LocalSession session;
+    private final DBModels tables;
     private boolean cache_load_main;
     private boolean reLoad;
 
     private LaunchApp(MainSystem main) {
-        this(main, null);
+        this(main, null, null);
     }
 
-    public LaunchApp(MainSystem main, LocalSession session) {
+    public LaunchApp(MainSystem main, LocalSession session, DBModels tables) {
         this.main = main;
         this.session = session;
+        this.tables = tables;
     }
 
     @Override
@@ -141,7 +146,9 @@ public class LaunchApp implements MainSystem {
     public Object getResources(String key) {
         return main.getResources(key);
     }
-    
-    
 
+    @Override
+    public DBTable getTable(String name) {
+        return tables.getTable(name);
+    }
 }

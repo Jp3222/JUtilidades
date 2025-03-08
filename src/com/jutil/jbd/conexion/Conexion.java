@@ -4,8 +4,8 @@
  */
 package com.jutil.jbd.conexion;
 
-import com.jutil.dbcon.connection.JConnection;
-import com.jutil.dbcon.connection.SimpleQuerys;
+import com.jutil.dbcon.cn.JConnection;
+import com.jutil.dbcon.cn.SimpleQuerys;
 import com.jutil.jbd.interfaces.MetodosBasicos;
 import com.jutil.jbd.interfaces.MetodosBasicosCompuestos;
 import com.jutil.jbd.util.Func;

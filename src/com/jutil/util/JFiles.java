@@ -10,7 +10,7 @@ import java.io.File;
  *
  * @author juan-campos
  */
-public class JFiles {
+public interface JFiles {
 
     public static int filesCount(String url) {
         return filesCount(new File(url), 0);
