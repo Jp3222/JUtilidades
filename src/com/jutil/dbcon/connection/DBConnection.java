@@ -120,7 +120,14 @@ public class DBConnection implements SimpleQuerys, JConnection {
     @Override
     public ResultSet query(String query) throws SQLException {
         Statement st = connection.createStatement();
+        showQuery(query);
         return st.executeQuery(query);
+    }
+    
+    public int execute(String e) throws SQLException{
+    Statement st = connection.createStatement();
+        showQuery(e);
+        return st.executeUpdate(e);
     }
 
     private void showQuery(String o) {
