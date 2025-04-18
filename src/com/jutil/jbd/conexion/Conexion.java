@@ -5,7 +5,6 @@
 package com.jutil.jbd.conexion;
 
 import com.jutil.dbcon.cn.JConnection;
-import com.jutil.dbcon.cn.SimpleQuerys;
 import com.jutil.jbd.interfaces.MetodosBasicos;
 import com.jutil.jbd.interfaces.MetodosBasicosCompuestos;
 import com.jutil.jbd.util.Func;
@@ -13,12 +12,13 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Properties;
+import com.jutil.dbcon.cn.QuerysModel;
 
 /**
  *
  * @author jp
  */
-public class Conexion extends BD implements SimpleQuerys, MetodosBasicosCompuestos, JConnection {
+public class Conexion extends BD implements QuerysModel, MetodosBasicosCompuestos, JConnection {
 
     private static Conexion instancia;
 
