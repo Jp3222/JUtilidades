@@ -167,4 +167,9 @@ public class Conexion extends BD implements QuerysModel, MetodosBasicosCompuesto
         return Func.getCamposDatos(campos, datos);
     }
 
+    @Override
+    public int execute(String query) throws SQLException {
+        return EXCE.query(query);
+    }
+
 }

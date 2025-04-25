@@ -15,7 +15,6 @@ import static com.jutil.dbcon.cn.SimpleQuerys.UPDATE_COL;
 import static com.jutil.dbcon.cn.SimpleQuerys.UPDATE_VAL;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -27,7 +26,7 @@ import java.util.Properties;
  *
  * @author juan-campos
  */
-public abstract class AbstractDBConnection implements QuerysModel, PrepareStamentModel, JConnection, AutoCloseable {
+public abstract class AbstractDBConnection implements QuerysModel, JConnection, AutoCloseable {
 
     final Connection connection;
     private final Map<String, String> ps_maps;
@@ -114,6 +113,16 @@ public abstract class AbstractDBConnection implements QuerysModel, PrepareStamen
         nullQuery(query);
         return st.executeQuery(query);
     }
+
+    @Override
+    public int execute(String query) throws SQLException {
+        Statement st = connection.createStatement();
+        showQuery(query);
+        nullQuery(query);
+        return st.executeUpdate(query);
+    }
+    
+    
 
     void showQuery(String o) {
         if (show_query) {

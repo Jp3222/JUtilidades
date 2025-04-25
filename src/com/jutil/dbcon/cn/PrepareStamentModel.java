@@ -76,4 +76,13 @@ public interface PrepareStamentModel extends SimpleQuerys {
      * @throws SQLException
      */
     ResultSet psQuery(String query) throws SQLException;
+
+    /**
+     * Este metodo ejecuta el query pasado por parametros
+     *
+     * @param query
+     * @return
+     * @throws SQLException
+     */
+    int psExecute(String query) throws SQLException;
 }

@@ -11,8 +11,7 @@ import java.sql.SQLException;
  *
  * @author juan-campos
  */
-public interface QuerysModel extends SimpleQuerys{
-
+public interface QuerysModel extends SimpleQuerys {
 
     /**
      * Este metodo se encarga de insertar 1 registro en la base de datos con el
@@ -35,4 +34,6 @@ public interface QuerysModel extends SimpleQuerys{
     boolean delete(String table, String where) throws SQLException;
 
     ResultSet query(String query) throws SQLException;
+
+    public int execute(String query) throws SQLException;
 }

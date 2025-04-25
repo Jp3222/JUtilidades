@@ -4,8 +4,8 @@
  */
 package com.jutil.framework;
 
-import com.jutil.dbcon.connection.DBModels;
 import com.jutil.dbcon.tb.DBTable;
+import com.jutil.dbcon.connection.DBModels;
 
 /**
  *

@@ -87,6 +87,12 @@ class Ejecutor implements MetodosBasicos {
         return rs;
     }
 
+    public int query(String query) throws SQLException {
+        st = cn.createStatement();
+        return st.executeUpdate(sql.query(query));
+        
+    }
+
     public void cerrarResultSet() throws SQLException {
         if (rs == null || rs.isClosed()) {
             return;
