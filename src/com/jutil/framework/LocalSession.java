@@ -4,15 +4,18 @@
  */
 package com.jutil.framework;
 
+import com.jutil.dbcon.cn.DBObjectModel;
+
 /**
  *
  * @author juan-campos
+ * @param <T>
  */
-public interface LocalSession {
+public interface LocalSession<T extends DBObjectModel> {
 
     boolean isOpen();
 
     void writer();
 
-    <T> void setUser(T user);
+    void setUser(T user);
 }

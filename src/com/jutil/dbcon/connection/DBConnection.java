@@ -4,11 +4,8 @@
  */
 package com.jutil.dbcon.connection;
 
-import java.sql.PreparedStatement;
-import java.sql.Statement;
 import java.sql.SQLException;
 import java.util.Properties;
-import java.sql.ResultSet;
 
 /**
  *
@@ -48,8 +45,27 @@ public final class DBConnection extends AbstractDBConnection {
         return o;
     }
 
+    private StorageProcedure sp;
+
     private DBConnection(int instance_type, Object... args) throws SQLException {
         super(instance_type, args);
+        sp = new StorageProcedure(connection);
+    }
+
+    public StorageProcedure getStorageProcedure() {
+        return sp;
+    }
+
+    @Override
+    public void setExecQuery(boolean exec_query) {
+        super.setExecQuery(exec_query); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+        sp.setExecQuery(exec_query);
+    }
+
+    @Override
+    public void setShowQuery(boolean show_query) {
+        super.setShowQuery(show_query); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+        sp.setShowQuery(show_query);
     }
 
 }

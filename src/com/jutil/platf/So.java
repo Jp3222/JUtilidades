@@ -6,6 +6,7 @@ package com.jutil.platf;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.LookAndFeel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -25,7 +26,6 @@ public class So {
     public static final String OS_VERSION = System.getProperty("os.version");
     public static final String PATH_SEPARATOR = System.getProperty("path.separator");
     public static final String LINE_SEPARATOR = System.getProperty("line.separator");
-    
 
     public static boolean isWindows() {
         return soName("windows");
@@ -54,4 +54,22 @@ public class So {
         }
     }
 
+    public static void setDefaultLookAndFeel(String name) {
+        try {
+            UIManager.setLookAndFeel(name);
+        } catch (ClassNotFoundException
+                | InstantiationException
+                | IllegalAccessException
+                | UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(So.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public static void setDefaultLookAndFeel(LookAndFeel look) {
+        try {
+            UIManager.setLookAndFeel(look);
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(So.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

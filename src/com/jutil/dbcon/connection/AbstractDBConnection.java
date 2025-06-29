@@ -5,7 +5,6 @@
 package com.jutil.dbcon.connection;
 
 import com.jutil.dbcon.cn.JConnection;
-import com.jutil.dbcon.cn.PrepareStamentModel;
 import com.jutil.dbcon.cn.QuerysModel;
 import static com.jutil.dbcon.cn.SimpleQuerys.DELETE;
 import static com.jutil.dbcon.cn.SimpleQuerys.INSERT_COL;

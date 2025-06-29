@@ -10,11 +10,9 @@ import java.io.Serializable;
  *
  * @author juan-campos
  */
-public interface DBObjectModel extends Cloneable, Serializable {
+public interface DBObjectModel extends Cloneable, Serializable, Comparable<DBObjectModel>{
 
-    String getID();
-    
-    void setData();
+    String getId();
 
-    String[] getData();
+    boolean isEmpty();
 }
