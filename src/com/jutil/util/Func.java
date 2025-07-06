@@ -9,5 +9,5 @@ package com.jutil.util;
  * @author juan-campos
  */
 public class Func implements JArrays, JFiles, JFunc {
-
+    
 }
