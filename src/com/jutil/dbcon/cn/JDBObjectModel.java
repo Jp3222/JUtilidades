@@ -10,7 +10,7 @@ import java.io.Serializable;
  *
  * @author juan-campos
  */
-public interface DBObjectModel extends Cloneable, Serializable, Comparable<DBObjectModel>{
+public interface JDBObjectModel extends Cloneable, Serializable, Comparable<JDBObjectModel>{
 
     String getId();
 

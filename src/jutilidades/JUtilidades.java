@@ -11,7 +11,7 @@ package jutilidades;
 public class JUtilidades {
 
     public static void main(String[] args) throws Exception {
-        
+
     }
 
 }

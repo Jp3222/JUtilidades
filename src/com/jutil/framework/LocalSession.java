@@ -4,14 +4,14 @@
  */
 package com.jutil.framework;
 
-import com.jutil.dbcon.cn.DBObjectModel;
+import com.jutil.dbcon.cn.JDBObjectModel;
 
 /**
  *
  * @author juan-campos
  * @param <T>
  */
-public interface LocalSession<T extends DBObjectModel> {
+public interface LocalSession<T extends JDBObjectModel> {
 
     boolean isOpen();
 
