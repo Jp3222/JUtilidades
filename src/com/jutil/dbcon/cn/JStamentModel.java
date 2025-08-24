@@ -11,7 +11,7 @@ import java.sql.SQLException;
  *
  * @author juan-campos
  */
-public interface QuerysModel extends SimpleQuerys {
+public interface JStamentModel extends SimpleQuerys {
 
     /**
      * Este metodo se encarga de insertar 1 registro en la base de datos con el

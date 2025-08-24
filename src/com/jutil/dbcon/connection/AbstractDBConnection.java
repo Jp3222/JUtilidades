@@ -5,7 +5,6 @@
 package com.jutil.dbcon.connection;
 
 import com.jutil.dbcon.cn.JConnection;
-import com.jutil.dbcon.cn.QuerysModel;
 import static com.jutil.dbcon.cn.SimpleQuerys.DELETE;
 import static com.jutil.dbcon.cn.SimpleQuerys.INSERT_COL;
 import static com.jutil.dbcon.cn.SimpleQuerys.INSERT_VAL;
@@ -20,15 +19,15 @@ import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+import com.jutil.dbcon.cn.JStamentModel;
 
 /**
  *
  * @author juan-campos
  */
-public abstract class AbstractDBConnection implements QuerysModel, JConnection, AutoCloseable {
+public abstract class AbstractDBConnection implements JStamentModel, JConnection, AutoCloseable {
 
     final Connection connection;
-    private final Map<String, String> ps_maps;
     private boolean show_query;
     private boolean exec_query;
 
@@ -43,7 +42,6 @@ public abstract class AbstractDBConnection implements QuerysModel, JConnection, 
             default ->
                 throw new AssertionError();
         }
-        ps_maps = new HashMap<>(20);
         show_query = false;
         exec_query = false;
     }
@@ -58,7 +56,9 @@ public abstract class AbstractDBConnection implements QuerysModel, JConnection, 
         Statement st = connection.createStatement();
         String query = INSERT_VAL.formatted(table, fields, values);
         showQuery(query);
-        nullQuery(query);
+        if (exec_query) {
+            return false;
+        }
         return st.executeUpdate(query) > 0;
     }
 
@@ -66,7 +66,9 @@ public abstract class AbstractDBConnection implements QuerysModel, JConnection, 
         Statement st = connection.createStatement();
         String query = INSERT_COL.formatted(table, fields, values.toString());
         showQuery(query);
-        nullQuery(query);
+        if (exec_query) {
+            return false;
+        }
         return st.executeUpdate(query) > 0;
     }
 
@@ -75,7 +77,9 @@ public abstract class AbstractDBConnection implements QuerysModel, JConnection, 
         Statement st = connection.createStatement();
         String query = UPDATE_VAL.formatted(table, olValue, newValue, where);
         showQuery(query);
-        nullQuery(query);
+        if (exec_query) {
+            return false;
+        }
         return st.executeUpdate(query) > 0;
     }
 
@@ -83,7 +87,9 @@ public abstract class AbstractDBConnection implements QuerysModel, JConnection, 
         Statement st = connection.createStatement();
         String query = UPDATE_COL.formatted(table, kv, where);
         showQuery(query);
-        nullQuery(query);
+        if (exec_query) {
+            return false;
+        }
         return st.executeUpdate(query) > 0;
     }
 
@@ -92,7 +98,9 @@ public abstract class AbstractDBConnection implements QuerysModel, JConnection, 
         Statement st = connection.createStatement();
         String query = DELETE.formatted(table, where);
         showQuery(query);
-        nullQuery(query);
+        if (exec_query) {
+            return false;
+        }
         return st.executeUpdate(query) > 0;
     }
 
@@ -101,7 +109,9 @@ public abstract class AbstractDBConnection implements QuerysModel, JConnection, 
         Statement st = connection.createStatement();
         String query = SELECT.formatted(table, fields, where);
         showQuery(query);
-        nullQuery(query);
+        if (exec_query) {
+            return null;
+        }
         return st.executeQuery(query);
     }
 
@@ -109,7 +119,9 @@ public abstract class AbstractDBConnection implements QuerysModel, JConnection, 
     public ResultSet query(String query) throws SQLException {
         Statement st = connection.createStatement();
         showQuery(query);
-        nullQuery(query);
+        if (exec_query) {
+            return null;
+        }
         return st.executeQuery(query);
     }
 
@@ -117,21 +129,15 @@ public abstract class AbstractDBConnection implements QuerysModel, JConnection, 
     public int execute(String query) throws SQLException {
         Statement st = connection.createStatement();
         showQuery(query);
-        nullQuery(query);
+        if (exec_query) {
+            return 0;
+        }
         return st.executeUpdate(query);
     }
-    
-    
 
     void showQuery(String o) {
         if (show_query) {
             System.out.println(o);
-        }
-    }
-
-    void nullQuery(String query) {
-        if (exec_query) {
-            query = "";
         }
     }
 
@@ -150,9 +156,6 @@ public abstract class AbstractDBConnection implements QuerysModel, JConnection, 
     public boolean isExecQuery() {
         return exec_query;
     }
-
-    private final String fmt_cvc = "'%s'";
-    private final String fmt_kv = "%s='%s'";
 
     public static final int VALUES = 1;
     public static final int FIELDS = 2;

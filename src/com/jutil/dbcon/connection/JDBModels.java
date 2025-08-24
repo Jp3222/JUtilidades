@@ -4,15 +4,15 @@
  */
 package com.jutil.dbcon.connection;
 
-import com.jutil.dbcon.tb.DBTable;
+import com.jutil.dbcon.tb.JDBTable;
 
 
 /**
  *
  * @author juan-campos
  */
-public interface DBModels {
+public interface JDBModels {
 
-    DBTable getTable(String name);
+    JDBTable getTable(String name);
 
 }

@@ -10,24 +10,24 @@ import java.util.Arrays;
  *
  * @author juan-campos
  */
-public class DBTable {
+public class JDBTable {
 
-    private final String table;
+    private final String table_name;
     private final String[] fields;
     private String[] graphics_fields;
 
-    public DBTable(String table, String[] fields, String[] graphics_field, int real_count_fields) {
-        this.table = table;
+    public JDBTable(String table, String[] fields, String[] graphics_field) {
+        this.table_name = table;
         this.fields = fields;
         this.graphics_fields = graphics_field;
     }
 
-    public DBTable(String table, String... fields) {
-        this(table, fields, fields, fields.length);
+    public JDBTable(String table, String... fields) {
+        this(table, fields, fields);
     }
 
     public String getTable() {
-        return table;
+        return table_name;
     }
 
     public String[] getFields() {
@@ -46,6 +46,5 @@ public class DBTable {
     public String toString() {
         return Arrays.toString(fields).replace("[", ")").replace("]", ")");
     }
-    
-    
+
 }

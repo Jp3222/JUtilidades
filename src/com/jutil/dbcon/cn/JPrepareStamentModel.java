@@ -11,7 +11,7 @@ import java.sql.SQLException;
  *
  * @author juan-campos
  */
-public interface PrepareStamentModel extends SimpleQuerys {
+public interface JPrepareStamentModel extends SimpleQuerys {
 
     /**
      * Este metodo se encarga de insertar 1 registro en la base de datos con el

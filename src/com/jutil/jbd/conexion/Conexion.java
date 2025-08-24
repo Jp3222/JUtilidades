@@ -12,13 +12,13 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Properties;
-import com.jutil.dbcon.cn.QuerysModel;
+import com.jutil.dbcon.cn.JStamentModel;
 
 /**
  *
  * @author jp
  */
-public class Conexion extends BD implements QuerysModel, MetodosBasicosCompuestos, JConnection {
+public class Conexion extends BD implements JStamentModel, MetodosBasicosCompuestos, JConnection {
 
     private static Conexion instancia;
 
