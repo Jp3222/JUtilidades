@@ -11,7 +11,7 @@ import java.util.Properties;
  *
  * @author juan-campos
  */
-public final class JDBConnection extends AbstractDBConnection {
+public final class JDBConnection extends AbstractJDBConnection {
 
     private static JDBConnection instance;
 
@@ -54,18 +54,6 @@ public final class JDBConnection extends AbstractDBConnection {
 
     public StorageProcedure getStorageProcedure() {
         return sp;
-    }
-
-    @Override
-    public void setExecQuery(boolean exec_query) {
-        super.setExecQuery(exec_query); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
-        sp.setExecQuery(exec_query);
-    }
-
-    @Override
-    public void setShowQuery(boolean show_query) {
-        super.setShowQuery(show_query); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
-        sp.setShowQuery(show_query);
     }
 
 }

@@ -4,14 +4,13 @@
  */
 package com.jutil.framework;
 
-import com.jutil.dbcon.tb.JDBTable;
 import com.jutil.dbcon.connection.JDBModels;
 
 /**
  *
  * @author juan-campos
  */
-public class LaunchApp implements MainSystem, JDBModels {
+public class LaunchApp implements MainSystem {
 
     private static LaunchApp instance;
 
@@ -42,32 +41,32 @@ public class LaunchApp implements MainSystem, JDBModels {
     }
 
     @Override
-    public boolean conectionDB() {
+    public synchronized boolean conectionDB() {
         return main.conectionDB();
     }
 
     @Override
-    public boolean appFiles() {
+    public synchronized boolean appFiles() {
         return main.appFiles();
     }
 
     @Override
-    public boolean cache() {
+    public synchronized boolean cache() {
         return main.cache();
     }
 
     @Override
-    public boolean run() {
+    public synchronized boolean run() {
         return main.run();
     }
 
     @Override
-    public boolean openSys() {
+    public synchronized boolean openSys() {
         return main.openSys();
     }
 
     @Override
-    public boolean closeSys() {
+    public synchronized boolean closeSys() {
         return main.closeSys();
     }
 
@@ -147,8 +146,4 @@ public class LaunchApp implements MainSystem, JDBModels {
         return main.getResources(key);
     }
 
-    @Override
-    public JDBTable getTable(String name) {
-        return tables.getTable(name);
-    }
 }

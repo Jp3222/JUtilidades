@@ -4,8 +4,6 @@
  */
 package com.jutil.jbd.conexion;
 
-import com.jutil.dbcon.cn.JConnection;
-import com.jutil.jbd.interfaces.MetodosBasicos;
 import com.jutil.jbd.interfaces.MetodosBasicosCompuestos;
 import com.jutil.jbd.util.Func;
 import java.sql.Connection;
@@ -13,12 +11,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Properties;
 import com.jutil.dbcon.cn.JStamentModel;
+import com.jutil.dbcon.cn.JConnectionModel;
 
 /**
- *
+ * 
+ * @deprecated 
  * @author jp
  */
-public class Conexion extends BD implements JStamentModel, MetodosBasicosCompuestos, JConnection {
+public class Conexion extends BD implements JStamentModel, MetodosBasicosCompuestos, JConnectionModel {
 
     private static Conexion instancia;
 
@@ -170,6 +170,51 @@ public class Conexion extends BD implements JStamentModel, MetodosBasicosCompues
     @Override
     public int execute(String query) throws SQLException {
         return EXCE.query(query);
+    }
+
+    @Override
+    public Connection getConnection() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void setAutoCommit(boolean auto) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void rollBack() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void commit() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void setShowQuery(boolean flag) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public boolean isShowQuery() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void setExceQuery(boolean flag) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public boolean canExceQuery() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void close() throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 }

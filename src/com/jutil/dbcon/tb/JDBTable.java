@@ -26,7 +26,7 @@ public class JDBTable {
         this(table, fields, fields);
     }
 
-    public String getTable() {
+    public String getTableName() {
         return table_name;
     }
 
