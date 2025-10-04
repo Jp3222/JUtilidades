@@ -9,6 +9,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.PreparedStatement;
+import java.sql.CallableStatement;
 import java.util.Properties;
 import com.jutil.dbcon.cn.JStamentModel;
 import com.jutil.dbcon.cn.JConnectionModel;
@@ -239,4 +241,17 @@ public abstract class AbstractJDBConnection implements JStamentModel, JConnectio
             System.out.println(query);
         }
     }
+
+    public Statement getNewStament() throws SQLException {
+        return connection.createStatement();
+    }
+
+    public PreparedStatement getNewPreparedStatement(String query) throws SQLException {
+        return connection.prepareStatement(query);
+    }
+
+    public CallableStatement getNewCallableStatement(String query) throws SQLException {
+        return connection.prepareCall(query);
+    }
+
 }
