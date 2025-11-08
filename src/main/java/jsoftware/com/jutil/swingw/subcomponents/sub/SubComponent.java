@@ -4,7 +4,7 @@
  */
 package jsoftware.com.jutil.swingw.subcomponents.sub;
 
-import jsoftware.com.jutil.framework.ComponentStates;
+import jsoftware.com.jutil.view.ComponentStates;
 import java.awt.BorderLayout;
 import java.util.Date;
 import java.util.Optional;
