@@ -16,7 +16,6 @@ public class JUtilSwing {
     public static void blocCellEdit(JComponent componente) {
 
     }
-
     private static void blockCellEditJCB(JComboBox o) {
 
     }

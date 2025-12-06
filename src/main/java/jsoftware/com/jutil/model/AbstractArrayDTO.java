@@ -10,12 +10,16 @@ import jsoftware.com.jutil.model.dto.DtoArrayModel;
  *
  * @author juan-campos
  */
-public abstract class AbstractArrayDTO extends AbstractMonitoreable implements DtoArrayModel {
+public abstract class AbstractArrayDTO implements DtoArrayModel {
 
-    private Object[] values;
+    protected Object[] values;
 
-    public AbstractArrayDTO(boolean flag_dev_log, String name_module) {
-        super(flag_dev_log, name_module);
+    public AbstractArrayDTO(Object[] values) {
+        this.values = values;
+    }
+
+    public AbstractArrayDTO() {
+        this(null);
     }
 
     @Override

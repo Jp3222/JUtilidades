@@ -5,6 +5,7 @@
 package jsoftware.com.jutil.db;
 
 import java.util.Arrays;
+import jsoftware.com.jutil.model.AbstractMapDTO;
 
 /**
  *
@@ -40,6 +41,16 @@ public class JDBTable {
 
     public String[] getGraphicsField() {
         return graphics_fields;
+    }
+
+    public String[] buildRow(AbstractMapDTO dto) {
+        String arr[] = new String[graphics_fields.length];
+        int i = 0;
+        for (String j : graphics_fields) {
+            arr[i] = dto.get(j).toString();
+            i++;
+        }
+        return arr;
     }
 
     @Override

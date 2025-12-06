@@ -4,14 +4,14 @@
  */
 package jsoftware.com.jutil.sys;
 
-import jsoftware.com.jutil.db.model.JDBObjectArrayModel;
+import jsoftware.com.jutil.db.model.JDBObject;
 
 /**
  *
  * @author juan-campos
  * @param <T>
  */
-public interface LocalSession<T extends JDBObjectArrayModel> {
+public interface LocalSession<T extends JDBObject> {
 
     boolean isOpen();
 

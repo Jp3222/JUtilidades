@@ -29,8 +29,8 @@ public class Func implements JArrays, JFiles, JFunc {
      * @param key
      * @param value
      */
-    public static void putIfPresentAndNotBlank(Map<String, String> map, String key, String value) {
-        if (value != null && !value.isBlank()) {
+    public static void putIfPresentAndNotBlank(Map<String, Object> map, String key, Object value) {
+        if (value != null && !value.toString().isBlank()) {
             map.put(key, value);
         }
     }
@@ -42,9 +42,16 @@ public class Func implements JArrays, JFiles, JFunc {
      * @param key
      * @param value
      */
-    public static void putIfNotNull(Map<String, String> map, String key, String value) {
+    public static void putIfNotNull(Map<String, Object> map, String key, Object value) {
         if (value != null) {
             map.put(key, value);
         }
+    }
+
+    public static String getIfNotNull(Map<String, Object> map, String key) {
+        if (map.containsKey(key) && map.get(key) != null) {
+            return map.get(key).toString();
+        }
+        return "";
     }
 }

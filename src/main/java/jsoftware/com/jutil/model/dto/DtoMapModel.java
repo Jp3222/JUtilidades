@@ -18,6 +18,6 @@ public interface DtoMapModel extends Serializable, Cloneable {
     Object get(String key);
 
     void setMap(Map<String, Object> map);
-    
+
     Map<String, Object> getMap();
 }

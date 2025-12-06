@@ -7,28 +7,36 @@ package jsoftware.com.jutil.model;
 import java.util.HashMap;
 import java.util.Map;
 import jsoftware.com.jutil.model.dto.DtoMapModel;
+import jsoftware.com.jutil.util.Func;
 
 /**
  *
  * @author juan-campos
  */
-public abstract class AbstractMapDTO extends AbstractMonitoreable implements DtoMapModel {
+public abstract class AbstractMapDTO implements DtoMapModel {
 
     protected final Map<String, Object> values;
 
-    public AbstractMapDTO(boolean flag_dev_log, String name_module) {
-        super(flag_dev_log, name_module);
-        values = new HashMap<>(20);
+    public AbstractMapDTO(Map<String, Object> map) {
+        this.values = map;
+    }
+
+    public AbstractMapDTO(int size) {
+        this(new HashMap<>(size));
+    }
+
+    public AbstractMapDTO() {
+        this(20);
     }
 
     @Override
     public void put(String key, Object value) {
-        values.put(key, value);
+        Func.putIfPresentAndNotBlank(values, key, value);
     }
 
     @Override
     public Object get(String key) {
-        return values.get(key);
+        return Func.getIfNotNull(values, key);
     }
 
     @Override
