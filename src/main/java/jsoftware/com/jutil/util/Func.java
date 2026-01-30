@@ -10,7 +10,7 @@ import java.util.Map;
  *
  * @author juan-campos
  */
-public class Func implements JArrays, JFiles, JFunc {
+public final class Func implements JFuncArrays, JFuncFiles, JFunc {
     // Método auxiliar
 
     public static void addIfChanged(Map<String, String> map, String key, String oldValue, String newValue) {

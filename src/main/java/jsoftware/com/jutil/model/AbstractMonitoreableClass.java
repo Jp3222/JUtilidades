@@ -10,12 +10,12 @@ import jsoftware.com.jutil.model.utils.Monitoreable;
  *
  * @author juanp
  */
-public abstract class AbstractMonitoreable implements Monitoreable {
+public abstract class AbstractMonitoreableClass implements Monitoreable {
 
     protected boolean flag_dev_log;
     protected String name_module;
 
-    public AbstractMonitoreable(boolean flag_dev_log, String name_module) {
+    public AbstractMonitoreableClass(boolean flag_dev_log, String name_module) {
         this.flag_dev_log = flag_dev_log;
         this.name_module = name_module;
     }

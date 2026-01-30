@@ -8,7 +8,7 @@ package jsoftware.com.jutil.model;
  *
  * @author juanp
  */
-public class AbstractDAO extends AbstractMonitoreable {
+public class AbstractDAO extends AbstractMonitoreableClass {
 
     public AbstractDAO(boolean flag_dev_log, String name_module) {
         super(flag_dev_log, name_module);

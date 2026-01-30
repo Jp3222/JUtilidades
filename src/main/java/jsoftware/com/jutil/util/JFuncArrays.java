@@ -8,7 +8,7 @@ package jsoftware.com.jutil.util;
  *
  * @author juan-campos
  */
-public interface JArrays {
+public interface JFuncArrays {
 
     public static <T> T[] array(T... e) {
         return (T[]) e;

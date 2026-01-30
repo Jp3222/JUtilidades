@@ -24,4 +24,26 @@ public interface JFuncFiles {
         return !isNull(dir) && dir.exists() && dir.isDirectory();
     }
 
+    public static int filesCount(String url) {
+        return filesCount(new File(url), 0);
+    }
+
+    public static int filesCount(File root, int count) {
+        if ((root == null || !root.exists()) || ((root.isDirectory() || root.isFile()) && !root.canRead())) {
+
+            return count;
+        }
+        if (root.listFiles() == null) {
+            return count;
+        }
+        for (File i : root.listFiles()) {
+            if (i.isFile()) {
+                count += 1;
+            } else {
+                count = filesCount(i, count);
+            }
+        }
+        return count;
+    }
+
 }
