@@ -39,11 +39,6 @@ public interface JFunc {
     // RFC moral (12 caracteres: 3 letras, 6 números, 3 alfanuméricos)
     public static String REGEX_RFC_EMPRESA = "^[A-Z]{3}\\d{6}[A-Z0-9]{3}$";
 
-    // --- Métodos de Verificación de Nulidad y Vacío (Corregido) ---
-    public static boolean isNullOrBlank(String o) {
-        return o == null || o.trim().isEmpty();
-    }
-
     // --- Métodos de Validación de Texto/Nombres ---
     /**
      * Valida que la cadena contenga solo letras, acentos y espacios.
@@ -51,7 +46,7 @@ public interface JFunc {
      * @param txt La cadena a validar (Ej: "Juan Pérez").
      */
     public static boolean isOnlyText(String txt) {
-        if (isNullOrBlank(txt)) {
+        if (isNullEmptyBlank(txt)) {
             return false;
         }
         // Se valida contra la expresión REGEX_ONLY_TEXT
@@ -65,7 +60,7 @@ public interface JFunc {
      * @param email La cadena a validar (Ej: "usuario@dominio.com").
      */
     public static boolean isValidEmail(String email) {
-        if (isNullOrBlank(email)) {
+        if (isNullEmptyBlank(email)) {
             return false;
         }
         return email.matches(REGEX_EMAIL);
@@ -78,7 +73,7 @@ public interface JFunc {
      * @param password La contraseña a validar.
      */
     public static boolean isValidPassword(String password) {
-        if (isNullOrBlank(password)) {
+        if (isNullEmptyBlank(password)) {
             return false;
         }
         return password.matches(REGEX_PASSWORD_STRONG);
@@ -90,7 +85,7 @@ public interface JFunc {
      * @param curp La CURP a validar.
      */
     public static boolean isValidCurp(String curp) {
-        if (isNullOrBlank(curp)) {
+        if (isNullEmptyBlank(curp)) {
             return false;
         }
         // CURP se pasa a mayúsculas para la validación
@@ -103,7 +98,7 @@ public interface JFunc {
      * @param rfc El RFC a validar.
      */
     public static boolean isValidRfc(String rfc) {
-        if (isNullOrBlank(rfc)) {
+        if (isNullEmptyBlank(rfc)) {
             return false;
         }
         String rfcUpper = rfc.toUpperCase();
@@ -114,14 +109,14 @@ public interface JFunc {
 
     // --- Métodos Numéricos (Ejemplo de uso de los campos REGEX_INTEGER, etc.) ---
     public static boolean isInteger(String txt) {
-        if (isNullOrBlank(txt)) {
+        if (isNullEmptyBlank(txt)) {
             return false;
         }
         return txt.matches(REGEX_INTEGER);
     }
 
     public static boolean isDecimalNumber(String txt) {
-        if (isNullOrBlank(txt)) {
+        if (isNullEmptyBlank(txt)) {
             return false;
         }
         return txt.matches(REGEX_DECIMAL_NUMBER);
@@ -129,5 +124,28 @@ public interface JFunc {
 
     public static boolean isNull(Object o) {
         return o == null;
+    }
+
+    public static boolean isNotNull(Object o) {
+        return !isNull(o);
+    }
+
+    public static boolean isNullEmptyBlank(String o) {
+        return isNull(o) || o.isEmpty() || o.isBlank();
+    }
+
+    public static boolean isNotNullEmptyBlank(String o) {
+        return !isNullEmptyBlank(o);
+    }
+
+    public static Object ifNull(Object input, Object output_default) {
+        if (isNotNull(input)) {
+            return input;
+        }
+        return output_default;
+    }
+
+    public static String ifStringNull(String input, String output_default) {
+        return ifNull(input, output_default).toString();
     }
 }

@@ -36,7 +36,7 @@ public abstract class AbstractMapDTO implements DtoMapModel {
 
     @Override
     public Object get(String key) {
-        return Func.getIfNotNull(values, key);
+        return values.get(key);
     }
 
     @Override

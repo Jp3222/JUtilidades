@@ -4,11 +4,13 @@
  */
 package jsoftware.com.jutil.model.utils;
 
+import java.io.Serializable;
+
 /**
  *
  * @author juanp
  */
-public interface Monitoreable {
+public interface Monitoreable extends Serializable {
 
     public void devLog(String msg);
 
