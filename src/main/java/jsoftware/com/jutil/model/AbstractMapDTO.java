@@ -7,7 +7,6 @@ package jsoftware.com.jutil.model;
 import java.util.HashMap;
 import java.util.Map;
 import jsoftware.com.jutil.model.dto.DtoMapModel;
-import jsoftware.com.jutil.util.Func;
 
 /**
  *
@@ -31,7 +30,7 @@ public abstract class AbstractMapDTO implements DtoMapModel {
 
     @Override
     public void put(String key, Object value) {
-        Func.putIfPresentAndNotBlank(values, key, value);
+        values.put(key, value);
     }
 
     @Override

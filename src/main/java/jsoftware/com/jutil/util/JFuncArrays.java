@@ -45,4 +45,5 @@ public interface JFuncArrays {
     public static byte[] array(byte... e) {
         return e;
     }
+
 }

@@ -10,6 +10,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -29,7 +30,7 @@ public class FuncLogs {
      * @param modulo Nombre del módulo o componente que genera el log.
      * @param mensaje Mensaje a registrar en el log.
      */
-    public static void logError(String log_path, String modulo, String mensaje) {
+    public static void logError(String log_path, String modulo, String mensaje) throws IOException {
         logError(log_path, null, null, modulo, null, mensaje);
     }
 
@@ -44,7 +45,7 @@ public class FuncLogs {
      * @param metodo Nombre del método donde se generó el mensaje.
      * @param mensaje Mensaje a registrar en el log.
      */
-    public static void logError(String log_path, String modulo, String metodo, String mensaje) {
+    public static void logError(String log_path, String modulo, String metodo, String mensaje) throws IOException {
         logError(log_path, null, null, modulo, metodo, mensaje);
     }
 
@@ -60,7 +61,7 @@ public class FuncLogs {
      * @param metodo Nombre del método donde ocurrió el error.
      * @param mensaje Mensaje descriptivo del error.
      */
-    public static void logError(String log_path, Exception e, String modulo, String metodo, String mensaje) {
+    public static void logError(String log_path, Exception e, String modulo, String metodo, String mensaje) throws IOException {
         logError(log_path, null, e, modulo, metodo, mensaje);
     }
 
@@ -84,17 +85,16 @@ public class FuncLogs {
      * {@code null}.
      * @param mensaje Mensaje personalizado que describe el error.
      */
-    public static void logError(String log_path, Class<?> cls, Exception e, String modulo, String metodo, String mensaje) {
+    public static void logError(String log_path, Class<?> cls, Exception e, String modulo, String metodo, String mensaje) throws IOException {
         try {
             if (modulo == null || mensaje == null) {
                 throw new IllegalArgumentException("El nombre del módulo y el mensaje no pueden ser nulos.");
             }
-
             StringBuilder sb = new StringBuilder();
             sb.append(System.getProperty("line.separator"));
-            String dateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
+            String dateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd_MM_yyyy HH_mm_ss"));
             if (e == null) {
-                sb.append(String.format("Info %s: %s {\n", modulo, dateTime));
+                sb.append(String.format("Info %s: %s - ", modulo, dateTime));
             } else {
                 sb.append(String.format("Error en %s: %s {\n", modulo, dateTime));
             }
@@ -103,9 +103,11 @@ public class FuncLogs {
             }
 
             if (metodo != null) {
+                //Error
                 sb.append("     Método: ").append(metodo).append(" - ").append(mensaje).append("\n");
             } else {
-                sb.append("     Info: ").append(mensaje).append("\n");
+                //info
+                sb.append(mensaje);
             }
             if (e != null) {
                 sb.append("Stack trace:\n");
@@ -115,13 +117,14 @@ public class FuncLogs {
                     sb.append(" (línea ").append(element.getLineNumber()).append(")\n");
                 }
             }
-            sb.append("}\n");
-            String date = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+            if (e != null) {
+                sb.append("}\n");
+            }
+            String date = LocalDate.now().format(DateTimeFormatter.ofPattern("dd_MM_yyyy"));
             String fileName = String.format("%s_%s.log", modulo, date);
             writerMessages(sb.toString(), log_path, fileName);
-        } catch (Exception ex) {
-            System.err.println("No se pudo escribir el log de error: " + ex.getMessage());
-            ex.printStackTrace();
+        } catch (IOException | IllegalArgumentException ex) {
+            throw ex;
         }
     }
 
@@ -137,16 +140,16 @@ public class FuncLogs {
      * @param path Ruta del directorio donde se ubicará el archivo.
      * @param file_name Nombre del archivo donde se escribirá el texto.
      */
-    private static void writerMessages(String txt, String path, String file_name) {
+    private static void writerMessages(String txt, String path, String file_name) throws FileNotFoundException, IOException {
         File file = getFile(path, file_name);
         try (OutputStream ops = new FileOutputStream(file, true); BufferedOutputStream bos = new BufferedOutputStream(ops)) {
-            bos.write(txt.getBytes());
+            bos.write(txt.getBytes(StandardCharsets.UTF_8));
             bos.flush();
             ops.flush();
         } catch (FileNotFoundException ex) {
-            System.getLogger(FuncLogs.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+            throw ex;
         } catch (IOException ex) {
-            System.getLogger(FuncLogs.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+            throw ex;
         }
     }
 
@@ -159,18 +162,20 @@ public class FuncLogs {
      * @return El objeto {@link File} si el archivo existe o fue creado
      * exitosamente; de lo contrario, retorna {@code null}.
      */
-    private static File getFile(String path, String file_name) {
-        File file = null;
-        boolean res = false;
+    private static File getFile(String path, String file_name) throws IOException {
+        File file = new File(path);
         try {
+            if (!file.exists()) {
+                file.mkdirs();
+            }
             file = new File(path, file_name);
-            res = file.createNewFile();
-            res = file != null;
-            return res ? file : null;
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            return file;
 
-        } catch (IOException ex) {
-            System.getLogger(FuncLogs.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        } catch (IOException e) {
+            throw e;
         }
-        return file;
     }
 }
