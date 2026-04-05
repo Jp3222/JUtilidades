@@ -104,6 +104,17 @@ public abstract class AbstractJDBConnection implements JStamentModel, JConnectio
     }
 
     @Override
+    public boolean isClose() {
+        boolean res = true;
+        try {
+            res = connection.isClosed();
+        } catch (SQLException ex) {
+            JExcp.getInstance(false, show_query).print(ex, getClass(), "isClose");
+        }
+        return res;
+    }
+
+    @Override
     public void setShowQuery(boolean flag) {
         this.show_query = flag;
     }

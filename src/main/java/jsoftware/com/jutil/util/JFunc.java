@@ -28,7 +28,6 @@ public abstract class JFunc {
 
     // Números reales/decimales (positivos o negativos: 1.5, -0.5, 10).
     public static String REGEX_DECIMAL_NUMBER = "^-?\\d+(\\.\\d+)?$";
-
     // --- Expresiones Regulares Específicas ---
     // Email: Formato estándar (ej: usuario@dominio.com)
     public static String REGEX_EMAIL = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$";
@@ -37,8 +36,12 @@ public abstract class JFunc {
     public static String REGEX_PASSWORD_STRONG = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$";
 
     // CURP: 18 caracteres. 4 letras, 6 números (fecha de nacimiento), 6 alfanuméricos (estado/género), 1 dígito verificador, 1 carácter final.
-    public static String REGEX_CURP = "^[A-Z]{4}\\d{6}[HM][A-Z]{5}[0-9]{2}$";
-
+    //public static String REGEX_CURP = "^[A-Z]{4}\\d{6}[HM][A-Z]{5}[0-9]{2}$";
+    //CACJ
+    //010617
+    //HMSMSN
+    //
+    public static final String REGEX_CURP = "^[A-Z]{4}[0-9]{6}[HM]{1}[A-Z]{5}[A-Z0-9]{2}$";
     // RFC con homoclave (13 caracteres: 4 letras, 6 números, 3 alfanuméricos)
     public static String REGEX_RFC_PERSONA = "^[A-Z]{4}\\d{6}[A-Z0-9]{3}$";
 
@@ -188,6 +191,8 @@ public abstract class JFunc {
     public static void putIfNotNull(Map<String, Object> map, String key, Object value) {
         if (value != null) {
             map.put(key, value);
+        } else {
+            map.put(key, null);
         }
     }
 

@@ -122,4 +122,6 @@ public interface JConnectionModel extends Serializable, AutoCloseable {
      * caso contrario.
      */
     boolean canExceQuery();
+    
+    boolean isClose();
 }

@@ -5,8 +5,12 @@
 package jsoftware.com.jutil.model;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.util.HashMap;
+import java.util.Map;
 import jsoftware.com.jutil.util.JFunc;
 
 /**
@@ -14,6 +18,12 @@ import jsoftware.com.jutil.util.JFunc;
  * @author juanp
  */
 public class AbstractDAO extends AbstractMonitoreableClass {
+
+    public static final int INSERT_DEFAULT_RETURN = -1;
+
+    public static final boolean UPDATE_DEFAULT_RETURN = false;
+
+    public static final boolean DELETE_DEFAULT_RETURN = false;
 
     public AbstractDAO(boolean flag_dev_log, String name_module) {
         super(flag_dev_log, name_module);
@@ -43,5 +53,22 @@ public class AbstractDAO extends AbstractMonitoreableClass {
             return;
         }
         ps.setObject(index, value);
+    }
+
+    public Map<String, Object> getMap(ResultSet rs) throws SQLException {
+        ResultSetMetaData md = rs.getMetaData();
+        int size = md.getColumnCount();
+        String[] fields = new String[size];
+        for (int i = 0; i < size; i++) {
+            fields[i] = md.getColumnLabel(i + 1);
+        }
+        Map<String, Object> map = new HashMap<>(20);
+        if (rs.next()) {
+            return map;
+        }
+        for (String i : fields) {
+            map.put(i.toLowerCase(), rs.getString(i));
+        }
+        return map;
     }
 }
