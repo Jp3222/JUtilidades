@@ -176,7 +176,7 @@ public abstract class JFunc {
      * @param value
      */
     public static void putIfPresentAndNotBlank(Map<String, Object> map, String key, Object value) {
-        if (value != null && !value.toString().isBlank()) {
+        if (isNotNull(value) && isNotNullEmptyBlank(value.toString())) {
             map.put(key, value);
         }
     }
@@ -189,6 +189,12 @@ public abstract class JFunc {
      * @param value
      */
     public static void putIfNotNull(Map<String, Object> map, String key, Object value) {
+        if (value != null) {
+            map.put(key, value);
+        }
+    }
+
+    public static void put(Map<String, Object> map, String key, Object value) {
         if (value != null) {
             map.put(key, value);
         } else {
