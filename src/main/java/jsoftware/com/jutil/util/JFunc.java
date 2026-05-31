@@ -154,6 +154,30 @@ public abstract class JFunc {
         return output_default;
     }
 
+    /**
+     * Convierte de forma segura cualquier objeto a su representación en String.
+     * <br>
+     * Si el objeto de entrada es nulo o equivalente, propaga un {@code null}
+     * limpio para proteger las inserciones en la base de datos de JBlue y
+     * evitar excepciones.
+     *
+     * @param input El objeto o dato a evaluar (proveniente de la Vista o el
+     * DTO).
+     * @return La representación en {@link String} del objeto, o {@code null} si
+     * la entrada está vacía.
+     */
+    public static String nullSafeToString(Object input) {
+        // 1. Verificación protegida contra nulos
+        if ((isNull(input))) {
+            return null;
+        }
+        if (input instanceof String str && isNullEmptyBlank(str)) {
+            return null;
+        }
+        // 2. Conversión segura una vez garantizado que el objeto existe
+        return input.toString();
+    }
+
     public static String ifStringNull(String input, String output_default) {
         return ifNull(input, output_default).toString();
     }

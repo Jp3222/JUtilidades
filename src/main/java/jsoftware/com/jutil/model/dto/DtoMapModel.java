@@ -8,8 +8,11 @@ import java.io.Serializable;
 import java.util.Map;
 
 /**
+ * Modelo que define un DTO con estructura interna Map
  *
- * @author juanp
+ * @author JUAN PABLO CAMPOS CASASANERO
+ * @since 2025-11-08
+ * @version 1.0
  */
 public interface DtoMapModel extends Serializable, Cloneable {
 
