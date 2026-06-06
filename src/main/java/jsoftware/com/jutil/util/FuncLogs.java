@@ -4,13 +4,14 @@
  */
 package jsoftware.com.jutil.util;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -20,6 +21,10 @@ import java.time.format.DateTimeFormatter;
  * @author Usuario
  */
 public class FuncLogs {
+
+    // Formateadores reutilizables e inmutables (Evitan recarga en memoria en cada llamada)
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd_MM_yyyy HH_mm_ss");
+    private static final DateTimeFormatter FILE_DATE_FORMATTER = DateTimeFormatter.ofPattern("dd_MM_yyyy");
 
     /**
      * Registra un mensaje informativo en el log de un módulo específico.
@@ -66,116 +71,72 @@ public class FuncLogs {
     }
 
     /**
-     * Registra un mensaje de error en un archivo de log correspondiente a un
-     * módulo específico.
-     *
-     * Este método construye un mensaje detallado que incluye: - Fecha y hora
-     * del error - Nombre del módulo - Clase y método donde ocurrió el error (si
-     * están disponibles) - Mensaje personalizado - Stack trace de la excepción
-     * (si se proporciona)
-     *
-     * El mensaje se guarda en un archivo cuyo nombre se forma con el nombre del
-     * módulo y la fecha/hora del error.
-     *
-     * @param cls Clase donde se produjo el error. Puede ser {@code null}.
-     * @param e Excepción capturada. Si se proporciona, se registra el stack
-     * trace.
-     * @param modulo Nombre del módulo o componente que genera el log.
-     * @param metodo Nombre del método donde ocurrió el error. Puede ser
-     * {@code null}.
-     * @param mensaje Mensaje personalizado que describe el error.
+     * Registra un mensaje operativo o una excepción en el archivo log del
+     * módulo correspondiente.
      */
-    public static void logError(String log_path, Class<?> cls, Exception e, String modulo, String metodo, String mensaje) throws IOException {
-        try {
-            if (modulo == null || mensaje == null) {
-                throw new IllegalArgumentException("El nombre del módulo y el mensaje no pueden ser nulos.");
-            }
-            StringBuilder sb = new StringBuilder();
-            sb.append(System.getProperty("line.separator"));
-            String dateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd_MM_yyyy HH_mm_ss"));
-            if (e == null) {
-                sb.append(String.format("Info %s: %s - ", modulo, dateTime));
-            } else {
-                sb.append(String.format("Error en %s: %s {\n", modulo, dateTime));
-            }
-            if (cls != null) {
-                sb.append("     Clase: ").append(cls.getName()).append("\n");
-            }
-
-            if (metodo != null) {
-                //Error
-                sb.append("     Método: ").append(metodo).append(" - ").append(mensaje).append("\n");
-            } else {
-                //info
-                sb.append(mensaje);
-            }
-            if (e != null) {
-                sb.append("Stack trace:\n");
-                for (StackTraceElement element : e.getStackTrace()) {
-                    sb.append("     ").append(element.getClassName());
-                    sb.append(".").append(element.getMethodName());
-                    sb.append(" (línea ").append(element.getLineNumber()).append(")\n");
-                }
-            }
-            if (e != null) {
-                sb.append("}\n");
-            }
-            String date = LocalDate.now().format(DateTimeFormatter.ofPattern("dd_MM_yyyy"));
-            String fileName = String.format("%s_%s.log", modulo, date);
-            writerMessages(sb.toString(), log_path, fileName);
-        } catch (IOException | IllegalArgumentException ex) {
-            throw ex;
+    public static void logError(String logPath, Class<?> cls, Exception e, String modulo, String metodo, String mensaje) throws IOException {
+        if (modulo == null || mensaje == null) {
+            throw new IllegalArgumentException("El nombre del módulo y el mensaje no pueden ser nulos.");
         }
+
+        StringBuilder sb = new StringBuilder(256);
+        sb.append(System.lineSeparator()); // Usa el salto de línea nativo del sistema de ejecución
+
+        String dateTime = LocalDateTime.now().format(DATE_TIME_FORMATTER);
+
+        if (e == null) {
+            sb.append(String.format("Info %s: %s - ", modulo, dateTime));
+        } else {
+            sb.append(String.format("Error en %s: %s {\n", modulo, dateTime));
+        }
+
+        if (cls != null) {
+            sb.append("     Clase: ").append(cls.getName()).append("\n");
+        }
+
+        if (metodo != null) {
+            sb.append("     Método: ").append(metodo).append(" - ").append(mensaje).append("\n");
+        } else {
+            sb.append(mensaje);
+        }
+
+        // Volcado fiel del Stack Trace sin iteraciones manuales ineficientes
+        if (e != null) {
+            sb.append("Stack trace:\n");
+            try (StringWriter sw = new StringWriter(); PrintWriter pw = new PrintWriter(sw)) {
+                e.printStackTrace(pw);
+                sb.append(sw.toString());
+            }
+            sb.append("}\n");
+        }
+
+        String dateStr = LocalDate.now().format(FILE_DATE_FORMATTER);
+        String fileName = String.format("%s_%s.log", modulo, dateStr);
+
+        writeMessages(sb.toString(), logPath, fileName);
     }
 
     /**
-     * Escribe el contenido de texto especificado en un archivo ubicado en el
-     * path y nombre indicados.
-     *
-     * Este método utiliza un flujo de salida con búfer para mejorar el
-     * rendimiento de escritura. Si el archivo no existe, se intenta crear antes
-     * de escribir.
-     *
-     * @param txt El texto que se desea escribir en el archivo.
-     * @param path Ruta del directorio donde se ubicará el archivo.
-     * @param file_name Nombre del archivo donde se escribirá el texto.
+     * Escribe el contenido utilizando la API NIO de Java, optimizando la
+     * creación de directorios y el volcado de bytes de forma segura.
      */
-    private static void writerMessages(String txt, String path, String file_name) throws FileNotFoundException, IOException {
-        File file = getFile(path, file_name);
-        try (OutputStream ops = new FileOutputStream(file, true); BufferedOutputStream bos = new BufferedOutputStream(ops)) {
-            bos.write(txt.getBytes(StandardCharsets.UTF_8));
-            bos.flush();
-            ops.flush();
-        } catch (FileNotFoundException ex) {
-            throw ex;
-        } catch (IOException ex) {
-            throw ex;
-        }
-    }
+    private static void writeMessages(String txt, String path, String fileName) throws IOException {
+        Path directory = Paths.get(path);
 
-    /**
-     * Obtiene una instancia de archivo en la ruta y nombre especificados. Si el
-     * archivo no existe, intenta crearlo.
-     *
-     * @param path Ruta del directorio donde se ubicará el archivo.
-     * @param file_name Nombre del archivo.
-     * @return El objeto {@link File} si el archivo existe o fue creado
-     * exitosamente; de lo contrario, retorna {@code null}.
-     */
-    private static File getFile(String path, String file_name) throws IOException {
-        File file = new File(path);
-        try {
-            if (!file.exists()) {
-                file.mkdirs();
-            }
-            file = new File(path, file_name);
-            if (!file.exists()) {
-                file.createNewFile();
-            }
-            return file;
-
-        } catch (IOException e) {
-            throw e;
+        // Crea los directorios padres de forma segura si no existen
+        if (!Files.exists(directory)) {
+            Files.createDirectories(directory);
         }
+
+        Path targetFile = directory.resolve(fileName);
+
+        // CREATE: Si no existe lo crea, APPEND: Si existe concatena al final de forma atómica
+        Files.writeString(
+                targetFile,
+                txt,
+                StandardCharsets.UTF_8,
+                StandardOpenOption.CREATE,
+                StandardOpenOption.APPEND
+        );
     }
 }
