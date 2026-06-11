@@ -35,7 +35,7 @@ public class FuncLogs {
      * @param modulo Nombre del módulo o componente que genera el log.
      * @param mensaje Mensaje a registrar en el log.
      */
-    public static void logError(String log_path, String modulo, String mensaje) throws IOException {
+    public static void logError(String log_path, String modulo, String mensaje) {
         logError(log_path, null, null, modulo, null, mensaje);
     }
 
@@ -50,7 +50,7 @@ public class FuncLogs {
      * @param metodo Nombre del método donde se generó el mensaje.
      * @param mensaje Mensaje a registrar en el log.
      */
-    public static void logError(String log_path, String modulo, String metodo, String mensaje) throws IOException {
+    public static void logError(String log_path, String modulo, String metodo, String mensaje) {
         logError(log_path, null, null, modulo, metodo, mensaje);
     }
 
@@ -66,7 +66,7 @@ public class FuncLogs {
      * @param metodo Nombre del método donde ocurrió el error.
      * @param mensaje Mensaje descriptivo del error.
      */
-    public static void logError(String log_path, Exception e, String modulo, String metodo, String mensaje) throws IOException {
+    public static void logError(String log_path, Exception e, String modulo, String metodo, String mensaje) {
         logError(log_path, null, e, modulo, metodo, mensaje);
     }
 
@@ -74,7 +74,7 @@ public class FuncLogs {
      * Registra un mensaje operativo o una excepción en el archivo log del
      * módulo correspondiente.
      */
-    public static void logError(String logPath, Class<?> cls, Exception e, String modulo, String metodo, String mensaje) throws IOException {
+    public static void logError(String logPath, Class<?> cls, Exception e, String modulo, String metodo, String mensaje) {
         if (modulo == null || mensaje == null) {
             throw new IllegalArgumentException("El nombre del módulo y el mensaje no pueden ser nulos.");
         }
@@ -106,6 +106,8 @@ public class FuncLogs {
             try (StringWriter sw = new StringWriter(); PrintWriter pw = new PrintWriter(sw)) {
                 e.printStackTrace(pw);
                 sb.append(sw.toString());
+            } catch (IOException ex) {
+                System.getLogger(FuncLogs.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
             }
             sb.append("}\n");
         }
@@ -113,7 +115,11 @@ public class FuncLogs {
         String dateStr = LocalDate.now().format(FILE_DATE_FORMATTER);
         String fileName = String.format("%s_%s.log", modulo, dateStr);
 
-        writeMessages(sb.toString(), logPath, fileName);
+        try {
+            writeMessages(sb.toString(), logPath, fileName);
+        } catch (IOException ex) {
+            System.getLogger(FuncLogs.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        }
     }
 
     /**
@@ -127,9 +133,7 @@ public class FuncLogs {
         if (!Files.exists(directory)) {
             Files.createDirectories(directory);
         }
-
         Path targetFile = directory.resolve(fileName);
-
         // CREATE: Si no existe lo crea, APPEND: Si existe concatena al final de forma atómica
         Files.writeString(
                 targetFile,
