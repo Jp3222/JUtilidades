@@ -55,20 +55,42 @@ public class AbstractDAO extends AbstractMonitoreableClass {
         ps.setObject(index, value);
     }
 
+    /**
+     * Convierte de manera genérica y automática la fila actual de un ResultSet
+     * en un mapa de Strings, utilizando la metadata de las columnas.
+     * <br><br>
+     * <strong>Nota de uso:</strong> Esta función NO avanza el cursor (no invoca
+     * a {@code rs.next()}), por lo que debe ser llamada cuando el ResultSet ya
+     * se encuentre posicionado en una fila válida.
+     *
+     * @param rs ResultSet activo y posicionado en la fila a extraer.
+     * @return Un mapa con los datos de la fila actual indexado por las columnas
+     * en minúsculas.
+     * @throws SQLException Si ocurre un error de lectura física en el driver de
+     * MySQL.
+     */
     public Map<String, Object> getMap(ResultSet rs) throws SQLException {
         ResultSetMetaData md = rs.getMetaData();
         int size = md.getColumnCount();
+
+        // 1. Extraemos las etiquetas o alias de la consulta SQL
         String[] fields = new String[size];
         for (int i = 0; i < size; i++) {
             fields[i] = md.getColumnLabel(i + 1);
         }
-        Map<String, Object> map = new HashMap<>(20);
-        if (rs.next()) {
-            return map;
+
+        // Capacidad inicial optimizada para albergar los campos sin redimensionar
+        Map<String, Object> map = new HashMap<>(26);
+
+        // 2. Mapeo directo de la fila actual
+        for (String column : fields) {
+            String key = column.toLowerCase();
+            String value = rs.getString(column);
+
+            // Sanitización defensiva: Evitamos nulos transformándolos en cadenas vacías limpias
+            map.put(key, (value != null) ? value.trim() : "");
         }
-        for (String i : fields) {
-            map.put(i.toLowerCase(), rs.getString(i));
-        }
+
         return map;
     }
 }
