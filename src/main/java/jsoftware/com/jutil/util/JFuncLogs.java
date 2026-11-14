@@ -20,7 +20,7 @@ import java.time.format.DateTimeFormatter;
  *
  * @author Usuario
  */
-public class FuncLogs {
+public class JFuncLogs {
 
     // Formateadores reutilizables e inmutables (Evitan recarga en memoria en cada llamada)
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd_MM_yyyy HH_mm_ss");
@@ -75,10 +75,9 @@ public class FuncLogs {
      * módulo correspondiente.
      */
     public static void logError(String logPath, Class<?> cls, Exception e, String modulo, String metodo, String mensaje) {
-        if (modulo == null || mensaje == null) {
-            throw new IllegalArgumentException("El nombre del módulo y el mensaje no pueden ser nulos.");
+        if (modulo == null) {
+            throw new IllegalArgumentException("El nombre del módulo");
         }
-
         StringBuilder sb = new StringBuilder(256);
         sb.append(System.lineSeparator()); // Usa el salto de línea nativo del sistema de ejecución
 
@@ -107,7 +106,7 @@ public class FuncLogs {
                 e.printStackTrace(pw);
                 sb.append(sw.toString());
             } catch (IOException ex) {
-                System.getLogger(FuncLogs.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+                System.getLogger(JFuncLogs.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
             }
             sb.append("}\n");
         }
@@ -118,7 +117,7 @@ public class FuncLogs {
         try {
             writeMessages(sb.toString(), logPath, fileName);
         } catch (IOException ex) {
-            System.getLogger(FuncLogs.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+            System.getLogger(JFuncLogs.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
         }
     }
 
